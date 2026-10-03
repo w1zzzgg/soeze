@@ -1,0 +1,78 @@
+.dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  background-color: var(--cursor-dot-color);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  box-shadow: var(--cursor-shadow);
+  transition:
+    background-color var(--theme-transition),
+    opacity 0.2s ease;
+}
+
+.ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 38px;
+  height: 38px;
+  border: 1.75px solid var(--cursor-ring-color);
+  background-color: var(--cursor-ring-bg);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--cursor-shadow);
+  transition:
+    border-color var(--theme-transition),
+    background-color var(--theme-transition);
+}
+
+.label {
+  position: absolute;
+  white-space: nowrap;
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cursor-label-color);
+  background: var(--cursor-label-bg);
+  padding: 0.2rem 0.5rem;
+  border-radius: 1px;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  line-height: 1.2;
+}
+
+/* Context-aware inverted cursor (e.g. over dark footer in light mode) */
+.invertedDot {
+  background-color: #f4f1ea !important;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.9), 0 1px 4px rgba(0, 0, 0, 0.5) !important;
+}
+
+.invertedRing {
+  border-color: rgba(244, 241, 234, 0.95) !important;
+  background-color: rgba(244, 241, 234, 0.08) !important;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.9), 0 1px 4px rgba(0, 0, 0, 0.5) !important;
+}
+
+.invertedLabel {
+  color: #111111 !important;
+  background: #f4f1ea !important;
+}
+
+@media (hover: none) {
+  .dot,
+  .ring {
+    display: none !important;
+  }
+}

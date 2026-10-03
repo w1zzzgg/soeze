@@ -1,0 +1,202 @@
+.work {
+  background: var(--bg);
+  transition: background-color var(--theme-transition);
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: var(--border-width) solid var(--border);
+  gap: 2rem;
+  flex-wrap: wrap;
+  transition: border-color var(--theme-transition);
+}
+
+.allWorkBtn {
+  flex-shrink: 0;
+  align-self: flex-end;
+}
+
+/* Grid — asymmetric 2-col */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  border: var(--border-width) solid var(--border);
+  transition: border-color var(--theme-transition);
+}
+
+/* Cards */
+.card {
+  border: var(--border-width) solid var(--border);
+  cursor: none;
+  overflow: hidden;
+  transition: border-color var(--theme-transition);
+}
+
+.card:first-child {
+  grid-column: 1 / -1;
+}
+
+/* Image area */
+.cardImage {
+  position: relative;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+
+.card:first-child .cardImage {
+  aspect-ratio: 21/9;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.placeholderTag {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  background: rgba(0,0,0,0.2);
+  color: white;
+  padding: 0.2rem 0.5rem;
+}
+
+.placeholderLabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.4);
+}
+
+.projectNum {
+  font-size: clamp(4rem, 8vw, 8rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  color: rgba(0,0,0,0.1);
+  line-height: 1;
+  position: absolute;
+  bottom: -0.2em;
+  right: 0.5rem;
+}
+
+/* Hover overlay */
+.cardOverlay {
+  position: absolute;
+  inset: 0;
+  background: var(--fg);
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover .cardOverlay {
+  opacity: 0.9;
+}
+
+.viewLabel {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Metadata row */
+.cardMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-top: var(--border-width) solid var(--border);
+  transition: border-color var(--theme-transition);
+}
+
+.cardLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cardIndex {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--fg-subtle);
+  transition: color var(--theme-transition);
+}
+
+.cardTitle {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  transition: color var(--theme-transition);
+}
+
+.cardCategory {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-top: 0.2rem;
+  transition: color var(--theme-transition);
+}
+
+.cardRight {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cardYear {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--fg-subtle);
+  transition: color var(--theme-transition);
+}
+
+.cardLink {
+  font-size: 0.9rem;
+  color: var(--fg);
+  text-decoration: none;
+  transition: color var(--theme-transition);
+}
+
+/* Description */
+.cardDescription {
+  padding: 0 1.25rem 1.25rem;
+  color: var(--fg-muted);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  transition: color var(--theme-transition);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card:first-child {
+    grid-column: 1;
+  }
+}

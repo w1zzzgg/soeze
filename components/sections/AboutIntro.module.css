@@ -1,0 +1,135 @@
+.about {
+  background: var(--bg);
+  transition: background-color var(--theme-transition);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+/* Headline */
+.headline {
+  margin-bottom: 3rem;
+}
+
+.headlineWrapper {
+  overflow: hidden;
+}
+
+.headlineLine {
+  display: block;
+  line-height: 1;
+}
+
+/* Profile image */
+.profileFrame {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 3/4;
+}
+
+.profileInner {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-secondary);
+  border: var(--border-width) solid var(--border);
+  position: relative;
+  overflow: hidden;
+  transition: border-color var(--theme-transition);
+}
+
+.profileImg {
+  object-fit: cover;
+  object-position: center bottom;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.profileFrame:hover .profileImg {
+  transform: scale(1.035);
+}
+
+.profileOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 50%,
+    transparent 70%,
+    rgba(0, 0, 0, 0.08) 100%
+  );
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+/* Offset brutalist shadow */
+.profileFrame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translate(10px, 10px);
+  border: var(--border-width) solid var(--border);
+  z-index: -1;
+  transition: border-color var(--theme-transition), transform 0.3s ease;
+}
+
+.profileFrame:hover::after {
+  transform: translate(14px, 14px);
+}
+
+/* Bio */
+.bio {
+  margin-bottom: 4rem;
+}
+
+.bioPara {
+  margin-bottom: 1.5rem;
+  color: var(--fg-muted);
+}
+
+.bioPara:last-child {
+  margin-bottom: 0;
+}
+
+/* Stats grid */
+.statsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: var(--border-width) solid var(--border);
+  border-left: var(--border-width) solid var(--border);
+  transition: border-color var(--theme-transition);
+}
+
+.statItem {
+  padding: 2rem;
+  border-bottom: var(--border-width) solid var(--border);
+  border-right: var(--border-width) solid var(--border);
+  transition: border-color var(--theme-transition);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .profileFrame {
+    max-width: 240px;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .statItem {
+    padding: 1.5rem;
+  }
+}

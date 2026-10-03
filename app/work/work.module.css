@@ -1,0 +1,176 @@
+.header {
+  border-bottom: var(--border-width) solid var(--border);
+  transition: border-color var(--theme-transition);
+}
+
+.headline {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.headlineDesc {
+  max-width: 380px;
+  color: var(--fg-muted);
+  transition: color var(--theme-transition);
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  border: var(--border-width) solid var(--border);
+  transition: border-color var(--theme-transition);
+}
+
+/* Cards */
+.card {
+  border: var(--border-width) solid var(--border);
+  overflow: hidden;
+  cursor: none;
+  transition: border-color var(--theme-transition);
+}
+
+/* Image */
+.cardImage {
+  position: relative;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.placeholderTag {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  background: rgba(0,0,0,0.2);
+  color: white;
+  padding: 0.2rem 0.5rem;
+}
+
+.projectNum {
+  font-size: clamp(5rem, 10vw, 9rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  color: rgba(0,0,0,0.08);
+  line-height: 1;
+}
+
+.cardOverlay {
+  position: absolute;
+  inset: 0;
+  background: var(--fg);
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover .cardOverlay {
+  opacity: 0.92;
+}
+
+.viewLabel {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Card body */
+.cardBody {
+  padding: 1.25rem;
+  border-top: var(--border-width) solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: border-color var(--theme-transition);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.cardIndex {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--fg-subtle);
+  display: block;
+  margin-bottom: 0.3rem;
+  transition: color var(--theme-transition);
+}
+
+.cardTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  transition: color var(--theme-transition);
+}
+
+.cardCategory {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-top: 0.2rem;
+  transition: color var(--theme-transition);
+}
+
+.cardYear {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--fg-subtle);
+  transition: color var(--theme-transition);
+}
+
+.cardDesc {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--fg-muted);
+  transition: color var(--theme-transition);
+}
+
+.cardLink {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--fg);
+  border-bottom: 1px solid var(--fg-subtle);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.cardLink:hover {
+  color: var(--accent-lavender);
+  border-color: var(--accent-lavender);
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

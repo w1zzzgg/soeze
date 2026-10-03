@@ -1,0 +1,26 @@
+.wrapper {
+  overflow: hidden;
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 2rem;
+  font-size: clamp(0.75rem, 1.2vw, 1rem);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.dot {
+  margin-left: 2rem;
+  font-size: 0.6em;
+  opacity: 0.7;
+}

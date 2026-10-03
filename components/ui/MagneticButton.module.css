@@ -1,0 +1,7 @@
+.magnetic {
+  display: inline-block;
+  will-change: transform;
+  cursor: none;
+  text-decoration: none;
+  color: inherit;
+}

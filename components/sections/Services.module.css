@@ -1,0 +1,120 @@
+.services {
+  padding-bottom: 0;
+}
+
+.header {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: var(--border-width) solid var(--border);
+  transition: border-color var(--theme-transition);
+}
+
+.rows {
+  width: 100%;
+}
+
+.row {
+  border-top: var(--border-width) solid var(--service-border);
+  cursor: none;
+  transition:
+    background-color 0.3s ease,
+    border-color var(--theme-transition);
+  padding: 2rem 0;
+}
+
+.row:last-child {
+  border-bottom: var(--border-width) solid var(--service-border);
+}
+
+.rowInner {
+  display: grid;
+  grid-template-columns: 4rem 1fr 1fr 3rem;
+  align-items: center;
+  gap: 2rem;
+}
+
+.rowIndex {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--service-meta);
+  font-feature-settings: "tnum";
+  transition: color var(--theme-transition);
+}
+
+.rowTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.rowTitleText {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  line-height: 1.05;
+  color: var(--service-title);
+  transition: color var(--theme-transition);
+}
+
+.rowDetails {
+  margin-top: 1rem;
+}
+
+.rowDescription {
+  color: var(--service-description);
+  margin-bottom: 1rem;
+  max-width: 480px;
+  line-height: 1.6;
+  transition: color var(--theme-transition);
+}
+
+.rowTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--service-tag);
+  background-color: var(--service-tag-bg);
+  border: 1px solid var(--service-tag-border);
+  padding: 0.25rem 0.65rem;
+  transition:
+    background-color var(--theme-transition),
+    border-color var(--theme-transition),
+    color var(--theme-transition);
+}
+
+.rowShort {
+  font-size: clamp(0.65rem, 1.2vw, 0.85rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--service-meta);
+  transition: color var(--theme-transition);
+}
+
+.rowArrow {
+  font-size: 1.5rem;
+  color: var(--service-title);
+  will-change: transform;
+  transition: color var(--theme-transition);
+  justify-self: end;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .rowInner {
+    grid-template-columns: 2.5rem 1fr 2rem;
+    gap: 1rem;
+  }
+
+  .rowShort {
+    display: none;
+  }
+}

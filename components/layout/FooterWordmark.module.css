@@ -1,0 +1,125 @@
+/* =============================================================================
+   FOOTER WORDMARK — Multilingual Animated Identity
+   SO = pastel lavender  |  EZE = pastel rose-coral
+   .TECH has been removed from the visual wordmark. Brand is SOEZE only.
+   ============================================================================= */
+
+.wordmarkWrap {
+  padding: 0 var(--container-padding);
+  border-bottom: var(--border-width) solid var(--border);
+  padding-bottom: 2rem;
+  position: relative;
+  transition: border-color var(--theme-transition);
+  overflow: hidden;
+}
+
+/* SO + EZE sit side by side, baseline-aligned */
+.wordmarkRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  line-height: 1;
+}
+
+/* Each half is overflow:hidden so entering/exiting text clips cleanly */
+.soWrap,
+.ezeWrap {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  /* Height matches the text size — prevents layout shift during animation */
+  height: clamp(5rem, 21vw, 22rem);
+}
+
+/* The text span inside each half */
+.soText,
+.ezeText {
+  display: block;
+  /* Slightly larger than the old config to fill the space vacated by .TECH */
+  font-size: clamp(5rem, 21vw, 22rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  will-change: transform, opacity;
+  /* Multi-script font fallback stack */
+  font-family:
+    "Space Grotesk",
+    "Noto Sans",
+    "Noto Sans Devanagari",
+    "Noto Sans Japanese",
+    "Noto Sans Korean",
+    "Noto Sans Arabic",
+    "Noto Sans Tamil",
+    "Noto Sans Telugu",
+    "Noto Sans Kannada",
+    "Noto Sans Malayalam",
+    "Noto Sans SC",
+    system-ui,
+    sans-serif;
+}
+
+.soText {
+  color: var(--logo-so);
+  transition: color 0.6s ease;
+}
+
+.ezeText {
+  color: var(--logo-eze);
+  transition: color 0.6s ease;
+}
+
+/* Subtle language voice label — bottom-right of the wordmark area */
+.voiceLabel {
+  position: absolute;
+  bottom: 2.5rem;
+  right: var(--container-padding);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+  transition: color var(--theme-transition);
+  pointer-events: none;
+  user-select: none;
+}
+
+.voiceDivider {
+  opacity: 0.4;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .soWrap,
+  .ezeWrap {
+    height: clamp(4rem, 21vw, 14rem);
+  }
+
+  .soText,
+  .ezeText {
+    font-size: clamp(4rem, 21vw, 14rem);
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .soWrap,
+  .ezeWrap {
+    /* Let the text size itself naturally so it fills the mobile screen width */
+    height: clamp(3.5rem, 22vw, 7rem);
+  }
+
+  .soText,
+  .ezeText {
+    font-size: clamp(3.5rem, 22vw, 7rem);
+    /* Tighter tracking on mobile to fit both halves on one line */
+    letter-spacing: -0.03em;
+  }
+
+  .voiceLabel {
+    bottom: 1.5rem;
+    font-size: 0.5rem;
+  }
+}

@@ -1,0 +1,126 @@
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-top: var(--nav-height);
+}
+
+/* WebGL layer */
+.webglContainer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Content layer */
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100svh - var(--nav-height));
+  padding-top: 3rem;
+  padding-bottom: 4rem;
+}
+
+/* Headline */
+.headline {
+  will-change: transform;
+}
+
+.lineWrapper {
+  overflow: hidden;
+}
+
+.line {
+  display: block;
+}
+
+/* Highlight last line with accent */
+.lineWrapper:nth-child(4) .line {
+  color: var(--fg);
+  -webkit-text-stroke: 1px var(--fg);
+  /* Editorial empty style for contrast */
+}
+
+/* Subtext */
+.subtext {
+  display: flex;
+  align-items: flex-end;
+  gap: 3rem;
+  margin-top: 3rem;
+  max-width: 100%;
+}
+
+.subtextCopy {
+  max-width: 380px;
+  color: var(--fg-muted);
+  flex-shrink: 0;
+}
+
+.heroCta {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* Scroll indicator */
+.scrollIndicator {
+  position: absolute;
+  bottom: 2rem;
+  right: var(--container-padding);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.scrollLine {
+  width: 1px;
+  height: 60px;
+  background: var(--fg-subtle);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+.scrollLabel {
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+  writing-mode: vertical-rl;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { transform: scaleY(1); opacity: 1; }
+  50% { transform: scaleY(0.4); opacity: 0.4; }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .hero {
+    min-height: 100svh;
+  }
+
+  .subtext {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .subtextCopy {
+    max-width: 100%;
+  }
+
+  .scrollIndicator {
+    display: none;
+  }
+
+  .webglContainer {
+    opacity: 0.5;
+  }
+}

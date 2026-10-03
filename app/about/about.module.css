@@ -1,0 +1,221 @@
+.page {
+  min-height: 100vh;
+}
+
+/* Hero */
+.hero {
+  border-bottom: var(--border-width) solid var(--border);
+  transition: border-color var(--theme-transition);
+}
+
+.heroHeadline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.hline {
+  line-height: 1;
+  border-bottom: var(--border-width) solid var(--border);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+  transition: border-color var(--theme-transition);
+}
+
+.hline:last-child {
+  border-bottom: none;
+}
+
+/* Bio section */
+.bioGrid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+/* Image */
+.imageArea {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.imageFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/4;
+}
+
+.imageInner {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-secondary);
+  border: var(--border-width) solid var(--border);
+  position: relative;
+  overflow: hidden;
+  transition: border-color var(--theme-transition);
+}
+
+.profileImg {
+  object-fit: cover;
+  object-position: center bottom;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.imageFrame:hover .profileImg {
+  transform: scale(1.035);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 50%,
+    transparent 70%,
+    rgba(0, 0, 0, 0.08) 100%
+  );
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+/* Offset brutalist shadow */
+.imageFrame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translate(10px, 10px);
+  border: var(--border-width) solid var(--border);
+  z-index: -1;
+  transition: border-color var(--theme-transition), transform 0.3s ease;
+}
+
+.imageFrame:hover::after {
+  transform: translate(14px, 14px);
+}
+
+.imageCaption {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.imageCaption span:first-child {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.captionRole {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+}
+
+/* Bio text */
+.bioPara {
+  margin-bottom: 1.5rem;
+  color: var(--fg-muted);
+  max-width: 520px;
+}
+
+/* Info grid */
+.infoGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 3rem;
+  border-top: var(--border-width) solid var(--border);
+  transition: border-color var(--theme-transition);
+}
+
+.infoItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: var(--border-width) solid var(--border);
+  gap: 1rem;
+  transition: border-color var(--theme-transition);
+}
+
+.infoLabel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+}
+
+.infoValue {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+.infoLink {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--fg);
+  border-bottom: 1px solid var(--fg-subtle);
+}
+
+.infoLink:hover {
+  color: var(--accent-lavender);
+  border-color: var(--accent-lavender);
+}
+
+/* Stats */
+.statsSection {
+  background: var(--fg);
+  color: var(--bg);
+  transition:
+    background-color var(--theme-transition),
+    color var(--theme-transition);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-left: var(--border-width) solid var(--bg);
+}
+
+.statItem {
+  padding: 3rem 2rem;
+  border-right: var(--border-width) solid var(--bg);
+}
+
+.statItem :global(.text-stat) {
+  color: var(--bg);
+}
+
+.statItem :global(.text-label) {
+  color: rgba(244, 241, 234, 0.5);
+}
+
+@media (max-width: 768px) {
+  .bioGrid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .statItem {
+    padding: 2rem 1.5rem;
+    border-bottom: var(--border-width) solid var(--bg);
+  }
+}
