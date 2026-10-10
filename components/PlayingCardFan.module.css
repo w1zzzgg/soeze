@@ -1,0 +1,65 @@
+/* ─── PlayingCardFan ─────────────────────────────────────────────────── */
+
+/* Outer wrapper — fills whatever container it's placed in */
+.container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+/* Each card is stacked at the horizontal centre; bottom/zIndex come from JS */
+.cardWrapper {
+  position: absolute;
+  left: 50%;
+}
+
+/* Button base — shared between hand and played states */
+.cardBtn {
+  display: block;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  /* Kill browser outline; we supply our own below */
+  outline: none;
+}
+
+/* Hand card — draggable */
+.cardBtnHand {
+  cursor: grab;
+}
+
+.cardBtnHand:active {
+  cursor: grabbing;
+}
+
+.cardBtnHand:focus-visible {
+  outline: 2px solid rgba(128, 128, 128, 0.7);
+  outline-offset: 2px;
+}
+
+/* Played card — non-interactive */
+.cardBtnPlayed {
+  cursor: default;
+}
+
+/* Legal card indicator */
+.cardBtnLegal {
+  cursor: grab;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.28));
+}
+
+.cardBtnLegal:hover {
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.5));
+}
+
+/* Illegal card indicator */
+.cardBtnIllegal {
+  cursor: not-allowed;
+  opacity: 0.85;
+}
+
+.cardBtnIllegal:hover {
+  opacity: 0.95;
+}
+

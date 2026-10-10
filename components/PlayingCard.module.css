@@ -1,0 +1,364 @@
+/* ─── PlayingCard ───────────────────────────────────────────────────── */
+
+.card {
+  position: relative;
+  /* aspect-[5/7] */
+  aspect-ratio: 5 / 7;
+  user-select: none;
+  overflow: hidden;
+  border-radius: 0.9em;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.05),
+    0 4px 10px rgba(0, 0, 0, 0.07);
+}
+
+/* Color variants applied on the root so currentColor cascades */
+.colorRed {
+  color: #c22f2f;
+}
+
+.colorBlack {
+  color: #23262d;
+}
+
+/* ─── Face-down back pattern ─────────────────────────────────────── */
+.cardBack {
+  position: absolute;
+  inset: 0.55em;
+  border-radius: 0.5em;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: #9d2c35;
+  background-image:
+    url('/experiments/card-back.png'),
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.16) 0,
+      rgba(255, 255, 255, 0.16) 1.5px,
+      transparent 1.5px,
+      transparent 7px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0.16) 0,
+      rgba(255, 255, 255, 0.16) 1.5px,
+      transparent 1.5px,
+      transparent 7px
+    );
+  background-position: center;
+  background-size: cover, auto, auto;
+}
+
+/* ─── Corner index (rank + suit icon) ───────────────────────────── */
+.cornerIndex {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2em;
+}
+
+.cornerIndexTop {
+  top: 0.6em;
+  left: 0.65em;
+}
+
+.cornerIndexBottom {
+  right: 0.65em;
+  bottom: 0.6em;
+  transform: rotate(180deg);
+}
+
+.rankLabel {
+  font-weight: 600;
+  font-size: 1.55em;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+/* ─── Suit SVG icons ─────────────────────────────────────────────── */
+.suitIconCorner {
+  width: 1.05em;
+  height: 1.05em;
+  display: block;
+  fill: currentColor;
+}
+
+.suitIconAce {
+  width: 4.6em;
+  height: 4.6em;
+  display: block;
+  fill: currentColor;
+}
+
+.suitIconPip {
+  width: 2.1em;
+  height: 2.1em;
+  display: block;
+  fill: currentColor;
+}
+
+/* ─── Ace center ─────────────────────────────────────────────────── */
+.aceCenter {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Court card artwork ─────────────────────────────────────────── */
+.courtFrame {
+  position: absolute;
+  left: 24%;
+  right: 24%;
+  top: 16%;
+  bottom: 16%;
+  overflow: hidden;
+  border-radius: 0.4em;
+  border: 1px solid rgba(128, 128, 128, 0.35);
+}
+
+.courtImage {
+  object-fit: cover;
+}
+
+/* ─── Pip grid ───────────────────────────────────────────────────── */
+.pipField {
+  position: absolute;
+  left: 24%;
+  right: 24%;
+  top: 15%;
+  bottom: 15%;
+}
+
+.pip {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.pipFlip {
+  transform: translate(-50%, -50%) rotate(180deg);
+}
+
+/* ─── UNO Card Styling ───────────────────────────────────────────── */
+
+.unoCard {
+  border: 2px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.45), 0 4px 12px rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+  font-family: var(--font-sans, system-ui, sans-serif);
+}
+
+.unoBgRed {
+  background: linear-gradient(145deg, #ef233c 0%, #d90429 100%);
+}
+
+.unoBgYellow {
+  background: linear-gradient(145deg, #ffc300 0%, #ffb703 100%);
+  color: #111116;
+}
+
+.unoBgGreen {
+  background: linear-gradient(145deg, #10b981 0%, #059669 100%);
+}
+
+.unoBgBlue {
+  background: linear-gradient(145deg, #3a86ff 0%, #2563eb 100%);
+}
+
+.unoBgWild {
+  background: linear-gradient(145deg, #27272a 0%, #18181b 100%);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+/* ─── Corner Indexes ─────────────────────────────────────────────── */
+
+.unoCorner {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  z-index: 2;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.unoBgYellow .unoCorner {
+  text-shadow: none;
+}
+
+.unoCornerTop {
+  top: 0.5em;
+  left: 0.55em;
+}
+
+.unoCornerBottom {
+  bottom: 0.5em;
+  right: 0.55em;
+  transform: rotate(180deg);
+}
+
+.unoCornerLabel {
+  font-size: 1.4em;
+  font-style: italic;
+}
+
+/* ─── Center Oval ────────────────────────────────────────────────── */
+
+.unoCenterOval {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 76%;
+  height: 52%;
+  transform: translate(-50%, -50%) rotate(-24deg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.unoCenterOvalWhite {
+  background-color: #ffffff;
+}
+
+.unoBgRed .unoCenterOvalWhite {
+  color: #d90429;
+}
+
+.unoBgYellow .unoCenterOvalWhite {
+  color: #ffb703;
+}
+
+.unoBgGreen .unoCenterOvalWhite {
+  color: #059669;
+}
+
+.unoBgBlue .unoCenterOvalWhite {
+  color: #2563eb;
+}
+
+.unoCenterOvalDark {
+  background-color: #0c0c10;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ─── Center Content ─────────────────────────────────────────────── */
+
+.unoCenterNumber {
+  font-size: 4em;
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1;
+  transform: rotate(24deg); /* counteract oval rotation */
+  letter-spacing: -0.06em;
+  user-select: none;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+.unoCenterDraw2 {
+  font-size: 3em;
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1;
+  transform: rotate(24deg);
+  letter-spacing: -0.06em;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+.unoActionSvg {
+  width: 3.2em;
+  height: 3.2em;
+  transform: rotate(24deg);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+.unoCenterWildBox {
+  transform: rotate(24deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.unoWildSvg {
+  width: 3.6em;
+  height: 3.6em;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+}
+
+.unoCenterWild4Box {
+  position: relative;
+  transform: rotate(24deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.unoCenterWild4Text {
+  position: absolute;
+  font-size: 2em;
+  font-weight: 900;
+  font-style: italic;
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* ─── Face Down Back ─────────────────────────────────────────────── */
+
+.unoBack {
+  position: absolute;
+  inset: 0.4em;
+  border-radius: 0.6em;
+  background-color: #111116;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.03) 0,
+    rgba(255, 255, 255, 0.03) 2px,
+    transparent 2px,
+    transparent 8px
+  );
+}
+
+.unoBackOval {
+  width: 82%;
+  height: 56%;
+  transform: rotate(-24deg);
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ef233c 0%, #b91c1c 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffb703;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+}
+
+.unoBackText {
+  font-size: 2.2em;
+  font-weight: 900;
+  font-style: italic;
+  color: #ffb703;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  text-shadow: 1px 2px 0 rgba(0, 0, 0, 0.5);
+}
+
+.unoBackSub {
+  font-size: 0.6em;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #ffffff;
+  opacity: 0.85;
+}
+

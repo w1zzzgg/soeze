@@ -94,48 +94,298 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: none;
+  cursor: auto;
   overflow: hidden;
   user-select: none;
 }
 
-/* Typography Field Overlay */
-.typeField {
+/* ─── UNO Protocol Stage ─────────────────────────────────────────── */
+
+.unoArena {
   position: relative;
-  z-index: 2;
+  width: 100%;
+  min-height: 540px;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-secondary);
+  user-select: none;
+}
+
+/* Opponents bar */
+.opponentsRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.6rem 1rem;
+  background: var(--bg);
+  border-bottom: var(--border-width) solid var(--border);
+  flex-wrap: wrap;
+}
+
+.opponentCard {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  background: var(--bg-secondary);
+  border: var(--border-width) solid var(--border);
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg);
+  transition: all 0.2s ease;
+}
+
+.opponentActive {
+  border-color: var(--accent-mint);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+  background: rgba(16, 185, 129, 0.08);
+}
+
+.opponentDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--fg-muted);
+}
+
+.opponentActive .opponentDot {
+  background: var(--accent-mint);
+  animation: pulseLive 1.5s infinite;
+}
+
+.opponentCardsCount {
+  color: var(--fg-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.opponentUnoBadge {
+  background: #ef233c;
+  color: #ffffff;
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.6rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  animation: pulseLive 1.2s infinite;
+}
+
+/* Middle Play Field (Piles & Action Center) */
+.playField {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 1.25rem 1.5rem;
+  min-height: 200px;
+  position: relative;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.pilesArea {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.pileBox {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  text-align: center;
-  line-height: 0.92;
-  pointer-events: none;
+  gap: 0.4rem;
 }
 
-.typeLine {
-  display: flex;
-  justify-content: center;
-}
-
-.typeChar {
-  display: inline-block;
-  font-size: clamp(3rem, 9vw, 7.5rem);
+.pileLabel {
+  font-size: 0.58rem;
   font-weight: 700;
-  letter-spacing: -0.04em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.drawPileBtn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.15s ease, filter 0.15s ease;
+  outline: none;
+}
+
+.drawPileBtn:hover:not(:disabled) {
+  transform: translateY(-4px);
+  filter: drop-shadow(0 4px 12px rgba(255, 255, 255, 0.2));
+}
+
+.drawPileBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.pileBadge {
+  position: absolute;
+  bottom: -6px;
+  right: -6px;
+  background: var(--fg);
+  color: var(--bg);
+  font-size: 0.55rem;
+  font-weight: 900;
+  padding: 0.15rem 0.35rem;
+  border: 1px solid var(--border);
+  letter-spacing: 0.05em;
+}
+
+/* Center status and action controls */
+.statusCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: 380px;
+  text-align: center;
+}
+
+.statusMessage {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--fg);
-  will-change: transform, color;
-  transition: color 0.15s ease;
-  pointer-events: auto;
-  cursor: none;
-  padding: 0 0.05em;
+  line-height: 1.3;
 }
 
-.stageFooter {
+.statusNotice {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #ef233c;
+}
+
+.actionControls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.passBtn {
+  padding: 0.35rem 0.85rem;
+  background: var(--bg);
+  color: var(--fg);
+  border: var(--border-width) solid var(--border);
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--border);
+  transition: all 0.15s ease;
+}
+
+.passBtn:hover {
+  background: var(--accent-yellow);
+  color: #111116;
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--border);
+}
+
+.unoCallBtn {
+  padding: 0.4rem 1rem;
+  background: #ef233c;
+  color: #ffffff;
+  border: 2px solid #ffb703;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 0 14px rgba(239, 35, 60, 0.7);
+  animation: pulseLive 1s infinite;
+  transition: transform 0.1s ease;
+}
+
+.unoCallBtn:hover {
+  transform: scale(1.05);
+}
+
+/* Color selector modal/bar */
+.colorPicker {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.6rem;
+  background: var(--bg);
+  border: var(--border-width) solid var(--border);
+  box-shadow: 2px 2px 0 var(--border);
+}
+
+.colorPickerLabel {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-right: 0.3rem;
+}
+
+.colorBtn {
+  padding: 0.25rem 0.6rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: #ffffff;
+  transition: transform 0.1s ease;
+}
+
+.colorBtn:hover {
+  transform: scale(1.08);
+}
+
+.colorBtnRed {
+  background: #ef233c;
+}
+
+.colorBtnYellow {
+  background: #ffb703;
+  color: #111116;
+}
+
+.colorBtnGreen {
+  background: #10b981;
+}
+
+.colorBtnBlue {
+  background: #2563eb;
+}
+
+/* Bottom Player Fan Stage */
+.cardStage {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+}
+
+.fanWrapper {
   position: absolute;
-  bottom: 0.75rem;
-  left: 1.25rem;
-  right: 1.25rem;
+  inset: 0;
+}
+
+/* Telemetry elements */
+.stageFooter {
+  position: relative;
+  padding: 0.6rem 1.25rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -144,13 +394,69 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--fg-subtle);
-  pointer-events: none;
-  z-index: 3;
+  border-top: var(--border-width) solid var(--border);
+  background: var(--bg);
+  user-select: none;
 }
 
-.touchHint {
-  display: none;
+.telemetryRight {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
+
+.colorBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.15rem 0.45rem;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  font-size: 0.6rem;
+  font-weight: 800;
+}
+
+.colorBadgeDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.resetBtn {
+  padding: 0.25rem 0.6rem;
+  background: var(--fg);
+  color: var(--bg);
+  border: var(--border-width) solid var(--border);
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--border);
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.1s ease,
+    background-color var(--theme-transition),
+    color var(--theme-transition);
+  white-space: nowrap;
+}
+
+.resetBtn:hover {
+  background: var(--accent-mint);
+  color: #111116;
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--border);
+}
+
+.resetBtn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--border);
+}
+
+
+
+
 
 /* Secondary Experiment: Thought Generator */
 .thoughtGenerator {
@@ -273,21 +579,23 @@
   }
 }
 
-/* Responsive */
 @media (max-width: 768px) {
-  .stage {
-    height: 340px;
+  .cardStage {
+    height: 280px;
   }
 
   .telemetryHint {
     display: none;
   }
 
-  .touchHint {
-    display: block;
-  }
-
   .thoughtGenerator {
     padding: 1.25rem;
   }
+
+  .telemetryRight {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.35rem;
+  }
 }
+

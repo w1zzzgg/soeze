@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import { siteConfig } from "@/lib/site-config";
 import Navbar from "@/components/layout/Navbar";
@@ -6,6 +7,7 @@ import Footer from "@/components/layout/Footer";
 import CustomCursor from "@/components/ui/CustomCursor";
 import NoiseOverlay from "@/components/ui/NoiseOverlay";
 import ThemeProvider from "@/components/ui/ThemeProvider";
+import SoezeChatWidget from "@/components/soeze-ai/SoezeChatWidget";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -53,8 +55,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <script
+      <body>
+        <Script
+          id="theme-init"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               try {
@@ -65,14 +69,13 @@ export default function RootLayout({
             `,
           }}
         />
-      </head>
-      <body>
         <ThemeProvider>
           <NoiseOverlay />
           <CustomCursor />
           <Navbar />
           <main id="main-content">{children}</main>
           <Footer />
+          <SoezeChatWidget />
         </ThemeProvider>
       </body>
     </html>

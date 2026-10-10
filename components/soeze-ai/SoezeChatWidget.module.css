@@ -1,0 +1,528 @@
+/* =============================================================================
+ * SOEZE AI Studio Assistant — Floating Chat Widget Styles
+ * Incorporates Dqnamo Model Selector geometry (input panel, pill badges,
+ * border treatments, responsive footer) into the SOEZE design system.
+ * ============================================================================= */
+
+.launcherButton {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.15rem;
+  background: var(--bg);
+  color: var(--fg);
+  border: var(--border-width) solid var(--border);
+  box-shadow: 4px 4px 0 var(--border);
+  border-radius: 9999px;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color var(--theme-transition);
+  user-select: none;
+}
+
+.launcherButton:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--border);
+}
+
+.launcherButton:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--border);
+}
+
+.launcherDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--accent-mint);
+  animation: pulseLive 2s ease-in-out infinite;
+}
+
+[data-theme="dark"] .launcherDot {
+  background-color: var(--accent-yellow);
+}
+
+@keyframes pulseLive {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+/* Chat Window Container */
+.widgetContainer {
+  position: fixed;
+  bottom: 5.25rem;
+  right: 1.5rem;
+  width: 420px;
+  max-width: calc(100vw - 2rem);
+  height: 580px;
+  max-height: calc(100dvh - 7rem);
+  z-index: 950;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  border: var(--border-width) solid var(--border);
+  box-shadow: 6px 6px 0 var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Header */
+.widgetHeader {
+  flex-shrink: 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  border-bottom: var(--border-width) solid var(--border);
+  background: var(--bg-secondary);
+  user-select: none;
+}
+
+.headerTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.headerTitle {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.headerBadge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  padding: 0.15rem 0.4rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--fg-muted);
+  flex-shrink: 0;
+}
+
+.headerControls {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.headerIconBtn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: var(--fg-muted);
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.headerIconBtn:hover {
+  background: var(--bg);
+  border-color: var(--border);
+  color: var(--fg);
+}
+
+/* Chat Messages Scroll Area */
+.messagesScroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  scroll-behavior: smooth;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.messagesScroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.messagesScroll::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+/* Message items */
+.messageRow {
+  display: flex;
+  flex-direction: column;
+  max-width: 88%;
+  min-width: 0;
+  gap: 0.25rem;
+  box-sizing: border-box;
+}
+
+.messageUser {
+  align-self: flex-end;
+  max-width: 85%;
+}
+
+.messageAssistant {
+  align-self: flex-start;
+  max-width: 90%;
+}
+
+.messageSender {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+  color: var(--fg-subtle);
+  text-transform: uppercase;
+}
+
+.messageBubble {
+  padding: 0.75rem 0.95rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.messageBubble code,
+.messageBubble pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+  min-width: 0;
+  font-family: var(--font-mono);
+}
+
+.messageBubble a {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.messageBubble ul,
+.messageBubble ol {
+  padding-left: 1.25rem;
+  margin: 0.35rem 0;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.messageBubble li {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.bubbleUser {
+  background: var(--fg);
+  color: var(--bg);
+  border: 1px solid var(--border);
+  border-bottom-right-radius: 2px;
+}
+
+.bubbleAssistant {
+  background: var(--bg-secondary);
+  color: var(--fg);
+  border: var(--border-width) solid var(--border);
+  border-bottom-left-radius: 2px;
+}
+
+/* Starter Prompts */
+.startersSection {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.startersTitle {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.starterPill {
+  text-align: left;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.45rem 0.65rem;
+  font-size: 0.76rem;
+  line-height: 1.35;
+  color: var(--fg);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.starterPill:hover {
+  background: var(--bg);
+  border-color: var(--accent-mint);
+  transform: translateX(2px);
+}
+
+[data-theme="dark"] .starterPill:hover {
+  border-color: var(--accent-yellow);
+}
+
+/* Loading / Typing indicator */
+.typingIndicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0.4rem 0.7rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: fit-content;
+}
+
+.typingDot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--fg-muted);
+  border-radius: 50%;
+  animation: typingBounce 1.4s infinite ease-in-out both;
+}
+
+.typingDot:nth-child(1) { animation-delay: -0.32s; }
+.typingDot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes typingBounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* Error Notice Banner */
+.errorBanner {
+  margin: 0.5rem 0;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--accent-coral);
+  background: rgba(255, 75, 75, 0.08);
+  border-radius: 6px;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--fg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.errorBanner span {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.retryBtn {
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--fg);
+}
+
+.retryBtn:hover {
+  background: var(--bg-secondary);
+}
+
+/* ─── Dqnamo Adapted Composer Box ──────────────────────────────────── */
+
+.composerRoot {
+  margin: 0.75rem;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  border: var(--border-width) solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  overflow: hidden;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.composerRoot:focus-within {
+  border-color: var(--fg);
+  box-shadow: 0 0 0 1px var(--fg);
+}
+
+.composerTextarea {
+  width: 100%;
+  min-height: 52px;
+  max-height: 120px;
+  resize: none;
+  background: transparent;
+  padding: 0.65rem 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--fg);
+  outline: none;
+  border: none;
+  box-sizing: border-box;
+}
+
+.composerTextarea::placeholder {
+  color: var(--fg-subtle);
+}
+
+.composerFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.45rem 0.65rem;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* Model Pill Trigger (Adapted from Dqnamo Combobox Trigger) */
+.modelBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--fg-muted);
+  user-select: none;
+  min-width: 0;
+  max-width: calc(100% - 85px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modelBadge span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modelBadgeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--accent-mint);
+}
+
+[data-theme="dark"] .modelBadgeDot {
+  background: var(--accent-yellow);
+}
+
+/* Send Button (Adapted from Dqnamo Button variant="primary") */
+.sendButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  background: var(--fg);
+  color: var(--bg);
+  border: 1px solid var(--border);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+  user-select: none;
+}
+
+.sendButton:hover:not(:disabled) {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.sendButton:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.sendButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Char counter */
+.charCount {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--fg-subtle);
+}
+
+/* Responsive adjustment for small mobile viewports */
+@media (max-width: 480px) {
+  .widgetContainer {
+    right: 0.75rem;
+    left: 0.75rem;
+    width: auto;
+    bottom: 4.75rem;
+    height: calc(100dvh - 6rem);
+  }
+
+  .launcherButton {
+    right: 1rem;
+    bottom: 1rem;
+    padding: 0.65rem 0.95rem;
+  }
+}
