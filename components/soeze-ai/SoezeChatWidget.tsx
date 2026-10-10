@@ -151,7 +151,7 @@ export default function SoezeChatWidget() {
             setErrorNotice(errData.error || "Please check your message and try again.");
             setCanRetry(false);
             setLastFailedInput(null);
-          } else if (errData.code === "QUOTA_EXCEEDED" || (res.status === 429 && errData.code !== "RATE_LIMITED")) {
+          } else if (errData.code === "QUOTA_EXCEEDED" || res.status === 429) {
             // Quota limit can take hours to reset — do not falsely suggest immediate retry
             setErrorNotice(FRIENDLY_UNAVAILABLE_MESSAGE);
             setCanRetry(false);
