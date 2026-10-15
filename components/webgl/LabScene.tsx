@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/purity */
 "use client";
 
 import { Suspense, useRef, useMemo, useEffect } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useThemeContext } from "@/components/ui/ThemeProvider";
 
@@ -155,14 +156,15 @@ function KineticField({
         }
       }
 
-      // Smooth target interpolation
+      // Smooth target interpolation (refresh-rate independent damping)
       const targetX = baseX + dispX;
       const targetY = baseY + dispY;
       const targetZ = dispZ;
 
-      array[ix] += (targetX - array[ix]) * 0.12;
-      array[iy] += (targetY - array[iy]) * 0.12;
-      array[iz] += (targetZ - array[iz]) * 0.12;
+      const lerpDamp = 1 - Math.exp(-7.5 * Math.min(delta, 0.1));
+      array[ix] += (targetX - array[ix]) * lerpDamp;
+      array[iy] += (targetY - array[iy]) * lerpDamp;
+      array[iz] += (targetZ - array[iz]) * lerpDamp;
     }
 
     posAttr.needsUpdate = true;

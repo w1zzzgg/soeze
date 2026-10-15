@@ -33,6 +33,11 @@ export default function Marquee({
     let rafId: number;
     let resetTimeout: ReturnType<typeof setTimeout>;
 
+    const wrapper = track.parentElement;
+    const prefersReducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     const init = () => {
       // Kill any running animation before re-initialising
       animRef.current?.kill();
@@ -43,6 +48,10 @@ export default function Marquee({
       if (halfWidth === 0) {
         // If layout hasn't completed yet, retry on the next frame
         rafId = requestAnimationFrame(init);
+        return;
+      }
+
+      if (prefersReducedMotion) {
         return;
       }
 
@@ -63,33 +72,60 @@ export default function Marquee({
     // Schedule after a frame so the DOM is painted
     rafId = requestAnimationFrame(init);
 
-    // Scroll-velocity interaction: faster scrolling = slightly faster marquee
+    // Pause animation when offscreen to conserve GPU and CPU frame budget
+    let observer: IntersectionObserver | null = null;
+    if (wrapper && typeof IntersectionObserver !== "undefined") {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (animRef.current) {
+              if (entry.isIntersecting && !document.hidden && !prefersReducedMotion) {
+                animRef.current.play();
+              } else {
+                animRef.current.pause();
+              }
+            }
+          });
+        },
+        { rootMargin: "150px 0px" }
+      );
+      observer.observe(wrapper);
+    }
+
+    // Scroll-velocity interaction: throttled to animation frames
     let lastScrollY = window.scrollY;
+    let scrollScheduled = false;
 
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      const velocity = Math.abs(currentScrollY - lastScrollY);
-      // Cap multiplier so the marquee never becomes unreadable
-      const multiplier = Math.min(1 + velocity * 0.02, 3);
-      lastScrollY = currentScrollY;
+      if (scrollScheduled || prefersReducedMotion) return;
+      scrollScheduled = true;
 
-      if (animRef.current) {
-        animRef.current.timeScale(
-          direction === "forward" ? multiplier : -multiplier
-        );
-      }
+      requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY;
+        const velocity = Math.abs(currentScrollY - lastScrollY);
+        const multiplier = Math.min(1 + velocity * 0.02, 3);
+        lastScrollY = currentScrollY;
 
-      // Return to normal speed 200ms after scrolling stops
-      clearTimeout(resetTimeout);
-      resetTimeout = setTimeout(() => {
-        if (animRef.current) {
-          gsap.to(animRef.current, {
-            timeScale: direction === "forward" ? 1 : -1,
-            duration: 0.5,
-            ease: "power2.out",
-          });
+        if (animRef.current && animRef.current.isActive()) {
+          animRef.current.timeScale(
+            direction === "forward" ? multiplier : -multiplier
+          );
         }
-      }, 200);
+
+        // Return to normal speed 200ms after scrolling stops
+        clearTimeout(resetTimeout);
+        resetTimeout = setTimeout(() => {
+          if (animRef.current && animRef.current.isActive()) {
+            gsap.to(animRef.current, {
+              timeScale: direction === "forward" ? 1 : -1,
+              duration: 0.5,
+              ease: "power2.out",
+            });
+          }
+        }, 200);
+
+        scrollScheduled = false;
+      });
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -97,6 +133,7 @@ export default function Marquee({
     return () => {
       cancelAnimationFrame(rafId);
       animRef.current?.kill();
+      observer?.disconnect();
       window.removeEventListener("scroll", handleScroll);
       clearTimeout(resetTimeout);
     };

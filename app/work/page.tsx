@@ -1,88 +1,111 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site-config";
 import SectionLabel from "@/components/ui/SectionLabel";
+import IdeationCards from "@/components/ideation/IdeationCards";
 import Contact from "@/components/sections/Contact";
+import MagneticButton from "@/components/ui/MagneticButton";
 import styles from "./work.module.css";
 
 export const metadata: Metadata = {
-  title: `Work — ${siteConfig.name}`,
-  description: `Selected work and experiments by ${siteConfig.name}.`,
+  title: "What If? — Ideation & Open Possibilities",
+  description:
+    "A collection of ideas, possible futures, and things we think should exist.",
+  alternates: {
+    canonical: "/work",
+  },
+  openGraph: {
+    title: `What If? — Ideation & Open Possibilities — ${siteConfig.name}`,
+    description:
+      "A collection of ideas, possible futures, and things we think should exist.",
+    url: `${siteConfig.url}/work`,
+  },
 };
-
-const CARD_ACCENTS = [
-  "var(--accent-lavender)",
-  "var(--accent-mint)",
-  "var(--accent-pink)",
-  "var(--accent-blue)",
-  "var(--accent-yellow)",
-];
 
 export default function WorkPage() {
   return (
-    <div style={{ paddingTop: "var(--nav-height)" }}>
-      {/* Header */}
-      <section className={`section ${styles.header}`}>
+    <div className={styles.workPage}>
+      {/* Page Header */}
+      <section className={`section ${styles.header}`} aria-label="Ideation introduction">
         <div className="container">
-          <SectionLabel index="01">SELECTED EXPERIMENTS</SectionLabel>
+          <div className={styles.headerMetaRow}>
+            <SectionLabel index=" 05 ">
+              — IDEATION / OPEN POSSIBILITIES
+            </SectionLabel>
+
+            <div className={styles.statusIndicator}>
+              <span className={styles.statusDot} aria-hidden="true" />
+              <span>STATUS: SPECULATIVE HORIZON</span>
+            </div>
+          </div>
+
           <div className={styles.headline}>
-            <div className="text-display">ALL WORK</div>
-            <p className={`text-body ${styles.headlineDesc}`}>
-              A collection of digital experiments, client work, and things built
-              for fun. Not all of it is finished. That's the point.
+            <h1 className={styles.mainTitle}>WHAT IF?</h1>
+            <p className={styles.headlineDesc}>
+              A collection of ideas, possible futures, and things we think should exist.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Project grid */}
-      <section className={`section ${styles.projectSection}`}>
+      {/* Responsive Ideation Grid */}
+      <section className={`section ${styles.ideationSection}`} aria-label="Speculative concepts">
         <div className="container">
-          <div className={styles.grid}>
-            {siteConfig.projects.map((project, i) => (
-              <div key={project.index} className={styles.card}>
-                {/* Image/placeholder */}
-                <div
-                  className={styles.cardImage}
-                  style={{ backgroundColor: CARD_ACCENTS[i % CARD_ACCENTS.length] }}
-                >
-                  {/* REPLACE_ME: Replace with real project image */}
-                  <div className={styles.imagePlaceholder}>
-                    <span className={styles.placeholderTag}>REPLACE_ME</span>
-                    <span className={styles.projectNum}>{project.index}</span>
-                  </div>
-                  <div className={styles.cardOverlay}>
-                    <span className={styles.viewLabel}>VIEW PROJECT ↗</span>
-                  </div>
-                </div>
+          <div className={styles.sectionNotice}>
+            <span className={styles.noticeText}>
+              [ 03 THOUGHT VECTORS // CLICK ANY CONCEPT TO EXPAND DEBRIEF ]
+            </span>
+            <span className={styles.noticeText}>
+              SPECULATIVE R&amp;D
+            </span>
+          </div>
 
-                <div className={styles.cardBody}>
-                  <div className={styles.cardHeader}>
-                    <div>
-                      <span className={styles.cardIndex}>{project.index}</span>
-                      <div className={styles.cardTitle}>{project.title}</div>
-                      <div className={styles.cardCategory}>{project.category}</div>
-                    </div>
-                    <span className={styles.cardYear}>{project.year}</span>
-                  </div>
-                  <p className={styles.cardDesc}>{project.description}</p>
+          {/* Reusable Three-Card Grid with Interactive Concept Panel Modal */}
+          <IdeationCards gridId="work-ideation-grid" />
+        </div>
+      </section>
 
-                  {project.url && !project.url.startsWith("REPLACE_ME") && (
-                    <a
-                      href={project.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.cardLink}
-                    >
-                      VISIT ↗
-                    </a>
-                  )}
-                </div>
-              </div>
-            ))}
+      {/* Closing Statement & Manifesto Section */}
+      <section className={`section ${styles.closingSection}`} aria-label="Closing statement">
+        <div className="container">
+          <div className={styles.closingContainer}>
+            <span className={styles.closingLabel}>
+              {"// THE STANCE // SPECULATIVE R&D"}
+            </span>
+
+            <h2 className={styles.closingStatement}>
+              NO LIMITS. JUST POSSIBILITIES.
+            </h2>
+
+            <p className={styles.closingCopy}>
+              We believe breakthroughs do not start from safe briefs or commoditized templates.
+              They emerge from raw curiosity, asking unconstrained questions, and having the
+              technical courage to build what does not yet exist.
+            </p>
+
+            <div className={styles.closingActions}>
+              <MagneticButton
+                href="#contact"
+                className={styles.primaryCta}
+                strength={0.25}
+                dataCursor="hover"
+              >
+                <span>LET&apos;S TALK ABOUT AN IDEA ↗</span>
+              </MagneticButton>
+
+              <MagneticButton
+                href="/#lab"
+                className={styles.secondaryCta}
+                strength={0.25}
+                dataCursor="hover"
+              >
+                <span>EXPLORE THE LAB &amp; UNO GAME ↗</span>
+              </MagneticButton>
+            </div>
           </div>
         </div>
       </section>
 
+      {/* Contact Section */}
       <Contact />
     </div>
   );

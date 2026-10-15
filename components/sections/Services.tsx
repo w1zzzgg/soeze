@@ -34,26 +34,28 @@ export default function Services() {
     if (typeof window === "undefined") return;
     gsap.registerPlugin(ScrollTrigger);
 
-    rowRefs.current.forEach((row, i) => {
-      if (!row) return;
-      gsap.fromTo(
-        row,
-        { x: i % 2 === 0 ? -40 : 40, opacity: 0 },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: row,
-            start: "top 85%",
-            once: true,
-          },
-        }
-      );
-    });
+    const ctx = gsap.context(() => {
+      rowRefs.current.forEach((row, i) => {
+        if (!row) return;
+        gsap.fromTo(
+          row,
+          { x: i % 2 === 0 ? -40 : 40, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: row,
+              start: "top 85%",
+              once: true,
+            },
+          }
+        );
+      });
+    }, sectionRef);
 
-    return () => ScrollTrigger.getAll().forEach((t) => t.kill());
+    return () => ctx.revert();
   }, []);
 
   const handleRowHover = (index: number, entering: boolean) => {
@@ -102,7 +104,7 @@ export default function Services() {
       <div className="container">
         <SectionLabel index="04">SERVICES</SectionLabel>
         <div className={styles.header}>
-          <div className="text-display">WHAT I DO</div>
+          <h2 className="text-display">WHAT I DO</h2>
         </div>
       </div>
 
@@ -131,13 +133,13 @@ export default function Services() {
 
                 {/* Title area */}
                 <div className={styles.rowTitle}>
-                  <div className={styles.rowTitleText}>
+                  <h3 className={styles.rowTitleText}>
                     {service.title.split("\n").map((line, j) => (
                       <span key={j} className="text-headline">
                         {line}
                       </span>
                     ))}
-                  </div>
+                  </h3>
 
                   {/* Expandable details */}
                   <div className={styles.rowDetails} style={{ height: 0, opacity: 0, overflow: "hidden" }}>

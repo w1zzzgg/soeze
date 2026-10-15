@@ -1,42 +1,68 @@
+/* eslint-disable react-hooks/immutability */
 "use client";
 
-import { Suspense, useRef } from "react";
+import { Suspense, RefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Environment, Float } from "@react-three/drei";
-import * as THREE from "three";
+import { Float } from "@react-three/drei";
 import { useThemeContext } from "@/components/ui/ThemeProvider";
 import WebGLFallback from "./WebGLFallback";
 import AbstractObject from "./AbstractObject";
 import ParticleField from "./ParticleField";
 
 interface HeroSceneProps {
-  mouseNormalized: { x: number; y: number };
-  scrollProgress: number;
+  mouseNormalized?: { x: number; y: number };
+  scrollProgress?: number;
+  mouseRef?: RefObject<{ x: number; y: number }>;
+  scrollProgressRef?: RefObject<number>;
+  isInView?: boolean;
 }
 
 function CameraRig({
   mouseNormalized,
   scrollProgress,
+  mouseRef,
+  scrollProgressRef,
 }: HeroSceneProps) {
   const { camera } = useThree();
 
   useFrame((_, delta) => {
-    // Subtle camera movement based on mouse
-    const targetX = mouseNormalized.x * 0.5;
-    const targetY = mouseNormalized.y * 0.3;
-    const targetZ = 5 + scrollProgress * 2;
+    const mx = mouseRef?.current ? mouseRef.current.x : mouseNormalized?.x ?? 0;
+    const my = mouseRef?.current ? mouseRef.current.y : mouseNormalized?.y ?? 0;
+    const sp = scrollProgressRef?.current !== undefined ? scrollProgressRef.current : scrollProgress ?? 0;
 
-    camera.position.x += (targetX - camera.position.x) * 0.05;
-    camera.position.y += (targetY - camera.position.y) * 0.05;
-    camera.position.z += (targetZ - camera.position.z) * 0.05;
+    // Subtle camera movement based on mouse
+    const targetX = mx * 0.5;
+    const targetY = my * 0.3;
+    const targetZ = 5 + sp * 2;
+
+    // Refresh-rate-independent damping (calibrated to 60fps base rate)
+    // Avoids twitchy motion or overshooting on 120Hz/144Hz displays
+    const dampFactor = 1 - Math.exp(-3.1 * Math.min(delta, 0.1));
+
+    camera.position.x += (targetX - camera.position.x) * dampFactor;
+    camera.position.y += (targetY - camera.position.y) * dampFactor;
+    camera.position.z += (targetZ - camera.position.z) * dampFactor;
     camera.lookAt(0, 0, 0);
   });
 
   return null;
 }
 
-export default function HeroScene(props: HeroSceneProps) {
+export default function HeroScene({
+  isInView = true,
+  mouseRef,
+  scrollProgressRef,
+  mouseNormalized = { x: 0, y: 0 },
+  scrollProgress = 0,
+}: HeroSceneProps) {
   const { theme } = useThemeContext();
+
+  const dprMax =
+    typeof window !== "undefined"
+      ? window.innerWidth < 768
+        ? Math.min(window.devicePixelRatio ?? 1, 1.5)
+        : Math.min(window.devicePixelRatio ?? 1, 1.75)
+      : 1;
 
   return (
     <div
@@ -52,14 +78,20 @@ export default function HeroScene(props: HeroSceneProps) {
       <Suspense fallback={<WebGLFallback theme={theme} />}>
         <Canvas
           camera={{ position: [0, 0, 5], fov: 60 }}
-          dpr={[1, typeof window !== "undefined" ? Math.min(window.devicePixelRatio ?? 1, 2) : 1]}
+          frameloop={isInView ? "always" : "never"}
+          dpr={[1, dprMax]}
           gl={{
             antialias: true,
             alpha: true,
             powerPreference: "high-performance",
           }}
         >
-          <CameraRig {...props} />
+          <CameraRig
+            mouseNormalized={mouseNormalized}
+            scrollProgress={scrollProgress}
+            mouseRef={mouseRef}
+            scrollProgressRef={scrollProgressRef}
+          />
 
           {/* Lighting */}
           <ambientLight intensity={theme === "dark" ? 0.2 : 0.5} />
@@ -78,15 +110,17 @@ export default function HeroScene(props: HeroSceneProps) {
           <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.5}>
             <AbstractObject
               theme={theme}
-              mouseNormalized={props.mouseNormalized}
+              mouseNormalized={mouseNormalized}
+              mouseRef={mouseRef}
             />
           </Float>
 
           {/* Particle field */}
           <ParticleField
             theme={theme}
-            mouseNormalized={props.mouseNormalized}
-            count={typeof window !== "undefined" && window.innerWidth < 768 ? 300 : 800}
+            mouseNormalized={mouseNormalized}
+            mouseRef={mouseRef}
+            count={typeof window !== "undefined" && window.innerWidth < 768 ? 250 : 600}
           />
         </Canvas>
       </Suspense>

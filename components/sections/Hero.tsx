@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState, Suspense } from "react";
+import { useRef, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -21,85 +21,116 @@ export default function Hero() {
   const { theme } = useThemeContext();
   const reducedMotion = useReducedMotion();
   const heroRef = useRef<HTMLElement>(null);
-  const headlineRef = useRef<HTMLDivElement>(null);
+  const headlineRef = useRef<HTMLHeadingElement>(null);
   const subtextRef = useRef<HTMLDivElement>(null);
-  const [mouse, setMouse] = useState({ x: 0, y: 0 });
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [webglLoaded, setWebglLoaded] = useState(false);
 
-  // Mouse tracking
+  // Cadence-aware mutable refs (avoids 100+ React re-renders per second on mousemove/scroll)
+  const mouseRef = useRef({ x: 0, y: 0 });
+  const scrollProgressRef = useRef(0);
+
+  const [webglLoaded, setWebglLoaded] = useState(Boolean(reducedMotion));
+  const [isInView, setIsInView] = useState(true);
+
+  // Mouse tracking — direct ref mutation with zero React reconciliation overhead
   useEffect(() => {
     if (reducedMotion) return;
     const handleMove = (e: MouseEvent) => {
-      setMouse({
-        x: (e.clientX / window.innerWidth) * 2 - 1,
-        y: -(e.clientY / window.innerHeight) * 2 + 1,
-      });
+      mouseRef.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseRef.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
     };
     window.addEventListener("mousemove", handleMove, { passive: true });
     return () => window.removeEventListener("mousemove", handleMove);
   }, [reducedMotion]);
 
-  // Scroll progress
+  // Viewport intersection observer to pause WebGL rendering when hero is offscreen
   useEffect(() => {
-    if (reducedMotion) return;
-    gsap.registerPlugin(ScrollTrigger);
-    ScrollTrigger.create({
-      trigger: heroRef.current,
-      start: "top top",
-      end: "bottom top",
-      onUpdate: (self) => setScrollProgress(self.progress),
-    });
-    return () => ScrollTrigger.getAll().forEach((t) => t.kill());
-  }, [reducedMotion]);
+    const heroEl = heroRef.current;
+    if (!heroEl || typeof IntersectionObserver === "undefined") return;
 
-  // Page load entrance animation
-  useEffect(() => {
-    if (reducedMotion) {
-      setWebglLoaded(true);
-      return;
-    }
-    gsap.registerPlugin(ScrollTrigger);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting && !document.hidden);
+      },
+      { rootMargin: "100px 0px" }
+    );
 
-    const tl = gsap.timeline({ delay: 0.2 });
+    observer.observe(heroEl);
 
-    // Headline assembles line by line
-    if (headlineRef.current) {
-      const lines = headlineRef.current.querySelectorAll(`.${styles.line}`);
-      tl.fromTo(
-        lines,
-        { yPercent: 120, opacity: 0 },
-        {
-          yPercent: 0,
-          opacity: 1,
-          stagger: 0.12,
-          duration: 1,
-          ease: "power4.out",
-        }
-      );
-    }
+    const handleVisibility = () => {
+      if (document.hidden) {
+        setIsInView(false);
+      } else {
+        const rect = heroEl.getBoundingClientRect();
+        setIsInView(rect.bottom > 0 && rect.top < window.innerHeight);
+      }
+    };
 
-    // Subtext
-    if (subtextRef.current) {
-      tl.fromTo(
-        subtextRef.current,
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.7, ease: "power2.out" },
-        "-=0.3"
-      );
-    }
-
-    // WebGL fades in
-    tl.call(() => setWebglLoaded(true), undefined, "-=0.5");
+    document.addEventListener("visibilitychange", handleVisibility);
 
     return () => {
-      tl.kill();
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", handleVisibility);
     };
-  }, [reducedMotion]);
+  }, []);
 
-  const parallaxStyle = !reducedMotion
-    ? { transform: `translateY(${scrollProgress * 60}px)` }
-    : {};
+  // GSAP Animations and Parallax Scroll with scoped context
+  useEffect(() => {
+    if (reducedMotion) {
+      return;
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const ctx = gsap.context(() => {
+      // Parallax scroll on headline using direct GPU transform (no React state updates)
+      if (headlineRef.current && heroRef.current) {
+        gsap.to(headlineRef.current, {
+          y: 60,
+          ease: "none",
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+            onUpdate: (self) => {
+              scrollProgressRef.current = self.progress;
+            },
+          },
+        });
+      }
+
+      // Entrance animation
+      const tl = gsap.timeline({ delay: 0.2 });
+
+      if (headlineRef.current) {
+        const lines = headlineRef.current.querySelectorAll(`.${styles.line}`);
+        tl.fromTo(
+          lines,
+          { yPercent: 120, opacity: 0 },
+          {
+            yPercent: 0,
+            opacity: 1,
+            stagger: 0.12,
+            duration: 1,
+            ease: "power4.out",
+          }
+        );
+      }
+
+      if (subtextRef.current) {
+        tl.fromTo(
+          subtextRef.current,
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.7, ease: "power2.out" },
+          "-=0.3"
+        );
+      }
+
+      tl.call(() => setWebglLoaded(true), undefined, "-=0.5");
+    }, heroRef);
+
+    return () => ctx.revert();
+  }, [reducedMotion]);
 
   return (
     <section
@@ -116,7 +147,11 @@ export default function Hero() {
         }}
       >
         {!reducedMotion ? (
-          <HeroScene mouseNormalized={mouse} scrollProgress={scrollProgress} />
+          <HeroScene
+            isInView={isInView}
+            mouseRef={mouseRef}
+            scrollProgressRef={scrollProgressRef}
+          />
         ) : (
           <WebGLFallback theme={theme} />
         )}
@@ -126,13 +161,13 @@ export default function Hero() {
       <div className={`container ${styles.content}`}>
 
         {/* Headline */}
-        <div ref={headlineRef} className={styles.headline} style={parallaxStyle}>
+        <h1 ref={headlineRef} className={styles.headline}>
           {siteConfig.hero.headline.map((line, i) => (
             <div key={i} className={styles.lineWrapper}>
               <div className={`${styles.line} text-hero`}>{line}</div>
             </div>
           ))}
-        </div>
+        </h1>
 
         {/* Subtext + CTA */}
         <div ref={subtextRef} className={styles.subtext} style={{ opacity: 0 }}>
@@ -149,11 +184,12 @@ export default function Hero() {
           </MagneticButton>
         </div>
 
-        {/* Scroll indicator */}
-        <div className={styles.scrollIndicator}>
-          <div className={styles.scrollLine} />
-          <span className={styles.scrollLabel}>SCROLL</span>
-        </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div className={styles.scrollIndicator} aria-hidden="true">
+        <div className={styles.scrollLine} />
+        <span className={styles.scrollLabel}>SCROLL</span>
       </div>
     </section>
   );

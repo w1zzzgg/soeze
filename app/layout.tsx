@@ -7,10 +7,14 @@ import Footer from "@/components/layout/Footer";
 import CustomCursor from "@/components/ui/CustomCursor";
 import NoiseOverlay from "@/components/ui/NoiseOverlay";
 import ThemeProvider from "@/components/ui/ThemeProvider";
+import SmoothScroll from "@/components/ui/SmoothScroll";
 import SoezeChatWidget from "@/components/soeze-ai/SoezeChatWidget";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
+  alternates: {
+    canonical: "/",
+  },
   title: {
     default: `${siteConfig.name} — Creative Technology Studio`,
     template: `%s — ${siteConfig.name}`,
@@ -35,17 +39,55 @@ export const metadata: Metadata = {
     title: `${siteConfig.name} — Creative Technology Studio`,
     description: siteConfig.description,
     siteName: siteConfig.name,
+    images: [
+      {
+        url: siteConfig.seo.ogImage,
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.name} — Creative Technology Studio`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: `${siteConfig.name} — Creative Technology Studio`,
     description: siteConfig.description,
     creator: siteConfig.seo.twitterHandle,
+    images: [siteConfig.seo.ogImage],
   },
   robots: {
     index: true,
     follow: true,
   },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${siteConfig.url}/#website`,
+      url: siteConfig.url,
+      name: siteConfig.name,
+      description: siteConfig.description,
+      publisher: {
+        "@id": `${siteConfig.url}/#organization`,
+      },
+    },
+    {
+      "@type": "Organization",
+      "@id": `${siteConfig.url}/#organization`,
+      name: siteConfig.name,
+      url: siteConfig.url,
+      description: siteConfig.description,
+      email: siteConfig.email,
+      sameAs: [
+        siteConfig.social.github,
+        siteConfig.social.instagram,
+        siteConfig.social.linkedin,
+      ],
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -56,6 +98,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <Script
           id="theme-init"
           strategy="afterInteractive"
@@ -70,6 +116,7 @@ export default function RootLayout({
           }}
         />
         <ThemeProvider>
+          <SmoothScroll />
           <NoiseOverlay />
           <CustomCursor />
           <Navbar />

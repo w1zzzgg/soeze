@@ -5,8 +5,16 @@ import SectionLabel from "@/components/ui/SectionLabel";
 import styles from "./contact.module.css";
 
 export const metadata: Metadata = {
-  title: `Contact — ${siteConfig.name}`,
+  title: "Contact",
   description: `Get in touch with ${siteConfig.name}. Let's make something weird.`,
+  alternates: {
+    canonical: "/contact",
+  },
+  openGraph: {
+    title: `Contact — ${siteConfig.name}`,
+    description: `Get in touch with ${siteConfig.name}. Let's make something weird.`,
+    url: `${siteConfig.url}/contact`,
+  },
 };
 
 export default function ContactPage() {
@@ -15,22 +23,15 @@ export default function ContactPage() {
       {/* Page header */}
       <section className={`section ${styles.header}`}>
         <div className="container">
-          <SectionLabel index="01">LET'S TALK</SectionLabel>
+          <SectionLabel index="01">LET&apos;S TALK</SectionLabel>
           <div className={styles.headline}>
-            <div className="text-display">CONTACT</div>
+            <h1 className="text-display">CONTACT</h1>
             <div className={styles.headlineRight}>
               <p className={`text-body ${styles.desc}`}>
                 Have a project in mind? Want to collaborate?
                 <br />
-                Just want to say hello? I'm all of those.
+                Just want to say hello? I&apos;m all of those.
               </p>
-              {/* REPLACE_ME: Replace with real availability status */}
-              <div className={styles.availability}>
-                <span className={styles.availDot} />
-                <span className={styles.availText}>
-                  REPLACE_ME — AVAILABILITY STATUS
-                </span>
-              </div>
             </div>
           </div>
         </div>

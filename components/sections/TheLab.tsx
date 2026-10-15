@@ -101,23 +101,25 @@ export default function TheLab() {
     if (typeof window === "undefined") return;
     gsap.registerPlugin(ScrollTrigger);
 
-    if (sectionRef.current) {
-      gsap.fromTo(
-        sectionRef.current,
-        { opacity: 0 },
-        {
-          opacity: 1,
-          duration: 0.8,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 80%",
-            once: true,
-          },
-        }
-      );
-    }
+    const ctx = gsap.context(() => {
+      if (sectionRef.current) {
+        gsap.fromTo(
+          sectionRef.current,
+          { opacity: 0 },
+          {
+            opacity: 1,
+            duration: 0.8,
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 80%",
+              once: true,
+            },
+          }
+        );
+      }
+    }, sectionRef);
 
-    return () => ScrollTrigger.getAll().forEach((t) => t.kill());
+    return () => ctx.revert();
   }, []);
 
   // ── Show temporary notice ──────────────────────────────────────────────────
@@ -213,9 +215,8 @@ export default function TheLab() {
     [gameState, showNotice]
   );
 
-  const handleIllegalPlay = useCallback(
-    (fanCard: FanCard) => {
-      if (gameState.winner !== null) return;
+  const handleIllegalPlay = useCallback(() => {
+    if (gameState.winner !== null) return;
       if (gameState.currentPlayer !== 0) {
         showNotice("[ WAIT FOR YOUR TURN ]");
         return;
@@ -316,7 +317,7 @@ export default function TheLab() {
         <SectionLabel index="05">EXPERIMENTS // THE LAB</SectionLabel>
 
         <div className={styles.header}>
-          <div className="text-display">THE LAB</div>
+          <h2 className="text-display">THE LAB</h2>
           <p className={`text-body ${styles.headerDesc}`}>
             A playground for experiments. Some useful. Some strange. All intentional.
           </p>
@@ -332,7 +333,7 @@ export default function TheLab() {
             </div>
 
             <div className={styles.telemetryHint}>
-              TURN: {PLAYER_NAMES[gameState.currentPlayer]} // DIR:{" "}
+              TURN: {PLAYER_NAMES[gameState.currentPlayer]} {"//"} DIR:{" "}
               {gameState.direction === 1 ? "CW ↻" : "CCW ↺"}
             </div>
 
@@ -345,7 +346,7 @@ export default function TheLab() {
                 COLOR: {gameState.activeColor.toUpperCase()}
               </span>
               <span className={styles.cardCounter}>
-                DRAW: {gameState.deck.length.toString().padStart(2, "0")} // HAND:{" "}
+                DRAW: {gameState.deck.length.toString().padStart(2, "0")} {"//"} HAND:{" "}
                 {humanHand.length.toString().padStart(2, "0")}
               </span>
               <button
@@ -541,9 +542,9 @@ export default function TheLab() {
 
           {/* Stage footer telemetry */}
           <div className={styles.stageFooter}>
-            <span>PROTOCOL: 1V1 STRATEGIC DUEL // STUDIO BOT</span>
+            <span>PROTOCOL: 1V1 STRATEGIC DUEL {"//"} STUDIO BOT</span>
             <span>
-              DISCARD PILE: {gameState.discard.length} // ACTIVE COLOR:{" "}
+              DISCARD PILE: {gameState.discard.length} {"//"} ACTIVE COLOR:{" "}
               {gameState.activeColor.toUpperCase()}
             </span>
           </div>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/purity */
 "use client";
 
 import { useRef, useMemo } from "react";
@@ -6,13 +7,15 @@ import * as THREE from "three";
 
 interface ParticleFieldProps {
   theme: "light" | "dark";
-  mouseNormalized: { x: number; y: number };
+  mouseNormalized?: { x: number; y: number };
+  mouseRef?: React.RefObject<{ x: number; y: number }>;
   count?: number;
 }
 
 export default function ParticleField({
   theme,
   mouseNormalized,
+  mouseRef,
   count = 600,
 }: ParticleFieldProps) {
   const pointsRef = useRef<THREE.Points>(null);
@@ -60,9 +63,12 @@ export default function ParticleField({
     if (!pointsRef.current) return;
     const t = clock.getElapsedTime();
 
-    // Gentle rotation + mouse influence
-    pointsRef.current.rotation.y = t * 0.04 + mouseNormalized.x * 0.08;
-    pointsRef.current.rotation.x = t * 0.02 + mouseNormalized.y * 0.05;
+    const mx = mouseRef?.current ? mouseRef.current.x : mouseNormalized?.x ?? 0;
+    const my = mouseRef?.current ? mouseRef.current.y : mouseNormalized?.y ?? 0;
+
+    // Gentle rotation + mouse influence (time-based, refresh-rate independent)
+    pointsRef.current.rotation.y = t * 0.04 + mx * 0.08;
+    pointsRef.current.rotation.x = t * 0.02 + my * 0.05;
   });
 
   return (

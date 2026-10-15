@@ -30,31 +30,33 @@ export default function TextReveal({
     const el = ref.current;
     if (!el) return;
 
-    const lines = el.querySelectorAll(".reveal-line");
+    const ctx = gsap.context(() => {
+      const lines = el.querySelectorAll(".reveal-line");
 
-    gsap.fromTo(
-      lines,
-      { yPercent: 110, opacity: 0 },
-      {
-        yPercent: 0,
-        opacity: 1,
-        duration: 0.9,
-        ease: "power3.out",
-        stagger,
-        delay,
-        scrollTrigger: {
-          trigger: el,
-          start: "top 85%",
-          once: triggerOnce,
-        },
-      }
-    );
+      gsap.fromTo(
+        lines,
+        { yPercent: 110, opacity: 0 },
+        {
+          yPercent: 0,
+          opacity: 1,
+          duration: 0.9,
+          ease: "power3.out",
+          stagger,
+          delay,
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            once: triggerOnce,
+          },
+        }
+      );
+    }, ref);
 
-    return () => ScrollTrigger.getAll().forEach((t) => t.kill());
+    return () => ctx.revert();
   }, [delay, stagger, triggerOnce]);
 
   return (
-    // @ts-ignore — dynamic tag
+    // @ts-expect-error — dynamic tag ref type mismatch
     <Tag ref={ref} className={className}>
       {children}
     </Tag>

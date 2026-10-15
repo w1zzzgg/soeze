@@ -41,7 +41,7 @@ function validateClient(fields: {
 
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
-  const headlineRef = useRef<HTMLDivElement>(null);
+  const headlineRef = useRef<HTMLHeadingElement>(null);
   const formCardRef = useRef<HTMLDivElement>(null);
   const submitBtnRef = useRef<HTMLButtonElement>(null);
   const successRef = useRef<HTMLDivElement>(null);
@@ -63,26 +63,28 @@ export default function Contact() {
     if (typeof window === "undefined") return;
     gsap.registerPlugin(ScrollTrigger);
 
-    const lines = headlineRef.current?.querySelectorAll(`.${styles.headlineLine}`);
-    if (lines) {
-      gsap.fromTo(
-        lines,
-        { yPercent: 110 },
-        {
-          yPercent: 0,
-          stagger: 0.1,
-          duration: 1,
-          ease: "power4.out",
-          scrollTrigger: {
-            trigger: headlineRef.current,
-            start: "top 80%",
-            once: true,
-          },
-        }
-      );
-    }
+    const ctx = gsap.context(() => {
+      const lines = headlineRef.current?.querySelectorAll(`.${styles.headlineLine}`);
+      if (lines) {
+        gsap.fromTo(
+          lines,
+          { yPercent: 110 },
+          {
+            yPercent: 0,
+            stagger: 0.1,
+            duration: 1,
+            ease: "power4.out",
+            scrollTrigger: {
+              trigger: headlineRef.current,
+              start: "top 80%",
+              once: true,
+            },
+          }
+        );
+      }
+    }, headlineRef);
 
-    return () => ScrollTrigger.getAll().forEach((t) => t.kill());
+    return () => ctx.revert();
   }, []);
 
   // GSAP success animation — runs when status changes to "success"
@@ -185,7 +187,7 @@ export default function Contact() {
         <div className={styles.layout}>
           {/* Left: headline + social */}
           <div className={styles.left}>
-            <div ref={headlineRef} className={styles.headline}>
+            <h2 ref={headlineRef} className={styles.headline}>
               {siteConfig.contact.headline.map((line, i) => (
                 <div key={i} className={styles.headlineWrapper}>
                   <div className={`${styles.headlineLine} text-display`}>
@@ -193,7 +195,7 @@ export default function Contact() {
                   </div>
                 </div>
               ))}
-            </div>
+            </h2>
 
             <p className={`text-body ${styles.subtext}`}>
               {siteConfig.contact.subtext}
@@ -214,13 +216,12 @@ export default function Contact() {
             <div className={styles.socials}>
               <span className={styles.socialTitle}>FIND ME AT</span>
               <div className={styles.socialLinks}>
-                {/* REPLACE_ME: Replace all social links with real URLs */}
                 <MagneticButton
                   href={siteConfig.social.github}
                   className={styles.socialLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  ariaLabel="GitHub — REPLACE_ME"
+                  ariaLabel="GitHub"
                   dataCursor="external"
                 >
                   GITHUB ↗
@@ -230,7 +231,7 @@ export default function Contact() {
                   className={styles.socialLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  ariaLabel="Instagram — REPLACE_ME"
+                  ariaLabel="Instagram"
                   dataCursor="external"
                 >
                   INSTAGRAM ↗
@@ -240,7 +241,7 @@ export default function Contact() {
                   className={styles.socialLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  ariaLabel="LinkedIn — REPLACE_ME"
+                  ariaLabel="LinkedIn"
                   dataCursor="external"
                 >
                   LINKEDIN ↗
@@ -262,10 +263,10 @@ export default function Contact() {
                   <div className={styles.successText}>
                     MESSAGE SENT.
                     <br />
-                    I'LL BE IN TOUCH.
+                    I&apos;LL BE IN TOUCH.
                   </div>
                   <p className={styles.successSubtext}>
-                    Message received. I'll get back to you soon.
+                    Message received. I&apos;ll get back to you soon.
                   </p>
                 </div>
               ) : (

@@ -1,0 +1,759 @@
+/* Grid — 1 wide feature card top, 2 smaller cards beneath */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--border);
+  border: var(--border-width) solid var(--border);
+  transition: border-color var(--theme-transition), background-color var(--theme-transition);
+}
+
+/* Cards */
+.card {
+  background: var(--bg);
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color var(--theme-transition),
+              box-shadow 0.35s ease;
+  outline: none;
+  border: none;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+}
+
+.card:focus-visible {
+  outline: 3px solid var(--accent-lavender);
+  outline-offset: -3px;
+  z-index: 2;
+}
+
+.card:first-child {
+  grid-column: 1 / -1;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  z-index: 3;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
+}
+
+/* Visual banner area */
+.cardVisual {
+  position: relative;
+  aspect-ratio: 16/7;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem;
+  color: #111111;
+  user-select: none;
+  background-color: var(--bg-secondary);
+  transition: transform 0.35s ease;
+}
+
+.card:first-child .cardVisual {
+  aspect-ratio: 21/8.5;
+  padding: 2rem 2.25rem;
+}
+
+/* Image Wrapper & Visual Media */
+.imageWrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  background: #0d0d0d;
+}
+
+.cardImage {
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover .cardImage {
+  transform: scale(1.03);
+}
+
+.imageScrim {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4.5rem;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.25) 60%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Accent backgrounds */
+.accentLavender {
+  background-color: var(--accent-lavender);
+}
+
+.accentMint {
+  background-color: var(--accent-mint);
+}
+
+.accentCoral {
+  background-color: var(--accent-coral);
+}
+
+.accentLime {
+  background-color: var(--accent-lime, var(--accent-yellow));
+}
+
+/* Visual Canvas Top Bar */
+.visualTopBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  gap: 0.75rem;
+}
+
+.visualBadge {
+  font-family: "Space Mono", "Courier New", monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  background: rgba(10, 10, 10, 0.92);
+  color: #ffffff;
+  padding: 0.32rem 0.65rem;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
+}
+
+.visualDomain {
+  font-family: "Space Mono", "Courier New", monospace;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(10, 10, 10, 0.75);
+  padding: 0.32rem 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(6px);
+  text-transform: uppercase;
+}
+
+/* Large Graphic Numeral Watermark */
+.visualWatermark {
+  position: absolute;
+  right: 1.5rem;
+  bottom: -0.15em;
+  font-size: clamp(6rem, 14vw, 15rem);
+  font-weight: 800;
+  letter-spacing: -0.07em;
+  line-height: 0.8;
+  color: rgba(255, 255, 255, 0.08);
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  z-index: 1;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+}
+
+.card:hover .visualWatermark {
+  transform: translateY(-8px) scale(1.02);
+  color: rgba(255, 255, 255, 0.14);
+}
+
+/* Corner Crosshair Decoration */
+.cornerCrosshair {
+  position: absolute;
+  font-family: "Space Mono", monospace;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  font-weight: 700;
+  line-height: 1;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.crosshairBottomLeft {
+  bottom: 1.25rem;
+  left: 1.5rem;
+}
+
+.card:first-child .crosshairBottomLeft {
+  left: 2.25rem;
+}
+
+/* Hover overlay */
+.cardOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.82);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 4;
+  backdrop-filter: blur(3px);
+}
+
+.card:hover .cardOverlay {
+  opacity: 1;
+}
+
+.overlayCue {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.8rem 1.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(4px);
+  transform: translateY(6px);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover .overlayCue {
+  transform: translateY(0);
+}
+
+/* Card Body / Metadata */
+.cardBody {
+  padding: 1.75rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background: var(--bg);
+  border-top: var(--border-width) solid var(--border);
+  flex-grow: 1;
+  transition: background-color var(--theme-transition), border-color var(--theme-transition);
+}
+
+.card:first-child .cardBody {
+  padding: 2rem 2.25rem 2.25rem;
+}
+
+/* Label & Cue row */
+.cardMetaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.cardLabel {
+  font-family: "Space Mono", "Courier New", monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--fg-subtle);
+  text-transform: uppercase;
+  transition: color var(--theme-transition);
+}
+
+.interactionCue {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--fg);
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: color 0.2s ease;
+}
+
+.interactionArrow {
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+
+.card:hover .interactionArrow {
+  transform: translate(3px, -3px);
+}
+
+/* Headline */
+.cardHeadline {
+  font-family: var(--font-sans);
+  font-size: clamp(1.35rem, 2.1vw, 2.1rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+  color: var(--fg);
+  margin: 0;
+  transition: color var(--theme-transition);
+}
+
+.card:first-child .cardHeadline {
+  font-size: clamp(1.6rem, 2.8vw, 2.85rem);
+  max-width: 900px;
+}
+
+/* Description */
+.cardDescription {
+  font-size: clamp(0.92rem, 1.15vw, 1.05rem);
+  line-height: 1.6;
+  color: var(--fg-muted);
+  margin: 0;
+  max-width: 720px;
+  transition: color var(--theme-transition);
+}
+
+/* Card bottom hint */
+.cardFooterHint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--border);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+  transition: border-color var(--theme-transition), color var(--theme-transition);
+}
+
+.hintAction {
+  color: var(--fg);
+  font-weight: 700;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.card:hover .hintAction {
+  opacity: 1;
+}
+
+/* =============================================================================
+   CONCEPT PANEL MODAL
+   ============================================================================= */
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modalContent {
+  background: var(--bg);
+  border: var(--border-width) solid var(--border);
+  max-width: 860px;
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+}
+
+/* Modal Accent Header */
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.75rem;
+  border-bottom: var(--border-width) solid var(--border);
+  color: #111111;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.modalHeaderLabel {
+  font-family: "Space Mono", monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.modalCloseBtn {
+  font-family: "Space Mono", monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: #111111;
+  color: #ffffff;
+  border: 1px solid #111111;
+  padding: 0.4rem 0.85rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.modalCloseBtn:hover {
+  background: #ffffff;
+  color: #111111;
+}
+
+/* Modal Body */
+.modalBody {
+  padding: 2.25rem 2.25rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.modalHeadline {
+  font-family: var(--font-sans);
+  font-size: clamp(1.6rem, 3.2vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--fg);
+  margin: 0;
+}
+
+.modalSummary {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--fg-muted);
+  border-left: 3px solid var(--border);
+  padding-left: 1.25rem;
+  margin: 0;
+}
+
+/* Concept Pillars */
+.conceptPillars {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 0.5rem;
+}
+
+.pillarCard {
+  border: var(--border-width) solid var(--border);
+  background: var(--surface);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: border-color var(--theme-transition), background-color var(--theme-transition);
+}
+
+.pillarHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pillarIndex {
+  font-family: "Space Mono", monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--fg-subtle);
+  background: var(--bg-secondary);
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--border);
+}
+
+.pillarTitle {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg);
+  margin: 0;
+}
+
+.pillarText {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--fg-muted);
+  margin: 0;
+}
+
+.pillarContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.bulletBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.pillarList {
+  list-style: none;
+  padding: 0;
+  margin: 0.25rem 0 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.pillarListItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.93rem;
+  line-height: 1.6;
+  color: var(--fg-muted);
+}
+
+.bulletDot {
+  font-family: "Space Mono", monospace;
+  color: var(--fg-subtle);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.bulletNumber {
+  font-family: "Space Mono", monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--fg-subtle);
+  background: var(--bg-secondary);
+  padding: 0.15rem 0.45rem;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+  line-height: 1.2;
+}
+
+.cardCategory {
+  font-family: "Space Mono", monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-top: -0.35rem;
+}
+
+.cardSupportingCopy {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--fg-subtle);
+  margin: -0.25rem 0 0;
+}
+
+.modalMetaRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: -0.5rem;
+}
+
+.modalCategoryTag {
+  font-family: "Space Mono", monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.6rem;
+}
+
+.modalStatusTag {
+  font-family: "Space Mono", monospace;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+}
+
+.modalSubSummary {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--fg-muted);
+  margin: -0.75rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.emptyStateContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.emptyStateCard {
+  border: var(--border-width) dashed var(--border);
+  background: var(--surface);
+  padding: 1.75rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  transition: border-color var(--theme-transition), background-color var(--theme-transition);
+}
+
+.emptyStatePara {
+  font-size: 1.02rem;
+  line-height: 1.7;
+  color: var(--fg);
+  margin: 0;
+}
+
+.emptyStateClosing {
+  font-family: var(--font-sans);
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--fg);
+  border-left: 3px solid var(--accent-lime, var(--accent-yellow));
+  padding-left: 1.25rem;
+  margin-top: 0.25rem;
+}
+
+/* Modal Footer */
+.modalFooter {
+  padding: 1.5rem 2.25rem;
+  border-top: var(--border-width) solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  background: var(--bg-secondary);
+}
+
+.modalDisclaimer {
+  font-family: "Space Mono", monospace;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--fg-subtle);
+  text-transform: uppercase;
+}
+
+.modalActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.modalTalkBtn {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.4rem;
+  background: var(--fg);
+  color: var(--bg);
+  border: var(--border-width) solid var(--border);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.modalTalkBtn:hover {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Responsive */
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card:first-child {
+    grid-column: 1;
+  }
+
+  .cardVisual,
+  .card:first-child .cardVisual {
+    aspect-ratio: 16/9;
+  }
+
+  .modalBody {
+    padding: 1.5rem 1.5rem 1.25rem;
+    gap: 1.5rem;
+  }
+
+  .modalFooter {
+    padding: 1.25rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .visualDomain {
+    display: none;
+  }
+
+  .modalActions {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .modalTalkBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card:hover,
+  .visualWatermark,
+  .card:hover .visualWatermark,
+  .interactionArrow,
+  .card:hover .interactionArrow,
+  .modalBackdrop,
+  .modalContent {
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}

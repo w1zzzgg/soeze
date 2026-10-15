@@ -6,8 +6,16 @@ import Contact from "@/components/sections/Contact";
 import styles from "./services.module.css";
 
 export const metadata: Metadata = {
-  title: `Services — ${siteConfig.name}`,
+  title: "Services",
   description: `Services offered by ${siteConfig.name} — AI automations, AI chatbots, AI ads, creative design, and digital marketing.`,
+  alternates: {
+    canonical: "/services",
+  },
+  openGraph: {
+    title: `Services — ${siteConfig.name}`,
+    description: `Services offered by ${siteConfig.name} — AI automations, AI chatbots, AI ads, creative design, and digital marketing.`,
+    url: `${siteConfig.url}/services`,
+  },
 };
 
 export default function ServicesPage() {
@@ -18,7 +26,7 @@ export default function ServicesPage() {
         <div className="container">
           <SectionLabel index="01">WHAT I DO</SectionLabel>
           <div className={styles.headline}>
-            <div className="text-display">SERVICES</div>
+            <h1 className="text-display">SERVICES</h1>
             <p className={`text-body ${styles.headlineDesc}`}>
               A range of creative and technical services, each designed to make
               your digital presence actually worth looking at.
@@ -43,7 +51,7 @@ export default function ServicesPage() {
             ].map((step) => (
               <div key={step.num} className={styles.processItem}>
                 <span className={styles.processNum}>{step.num}</span>
-                <div className={styles.processTitle}>{step.title}</div>
+                <h3 className={styles.processTitle}>{step.title}</h3>
                 <p className={`text-body ${styles.processDesc}`}>{step.desc}</p>
               </div>
             ))}

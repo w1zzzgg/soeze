@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/immutability */
 "use client";
 
 import { useRef, useMemo } from "react";
@@ -6,7 +7,8 @@ import * as THREE from "three";
 
 interface AbstractObjectProps {
   theme: "light" | "dark";
-  mouseNormalized: { x: number; y: number };
+  mouseNormalized?: { x: number; y: number };
+  mouseRef?: React.RefObject<{ x: number; y: number }>;
 }
 
 // Vertex shader — noise-based displacement
@@ -97,6 +99,7 @@ const fragmentShader = `
 export default function AbstractObject({
   theme,
   mouseNormalized,
+  mouseRef,
 }: AbstractObjectProps) {
   const meshRef = useRef<THREE.Mesh>(null);
 
@@ -129,19 +132,18 @@ export default function AbstractObject({
     if (!meshRef.current) return;
     const t = clock.getElapsedTime();
     uniforms.uTime.value = t;
-    uniforms.uColor1.value = color1;
-    uniforms.uColor2.value = color2;
 
-    // Subtle rotation influenced by mouse
-    meshRef.current.rotation.x =
-      t * 0.1 + mouseNormalized.y * 0.15;
-    meshRef.current.rotation.y =
-      t * 0.15 + mouseNormalized.x * 0.2;
+    const mx = mouseRef?.current ? mouseRef.current.x : mouseNormalized?.x ?? 0;
+    const my = mouseRef?.current ? mouseRef.current.y : mouseNormalized?.y ?? 0;
+
+    // Subtle rotation influenced by mouse (time-based, refresh-rate independent)
+    meshRef.current.rotation.x = t * 0.1 + my * 0.15;
+    meshRef.current.rotation.y = t * 0.15 + mx * 0.2;
   });
 
   return (
     <mesh ref={meshRef} position={[1.2, 0, 0]} scale={1.4}>
-      <icosahedronGeometry args={[1, 5]} />
+      <icosahedronGeometry args={[1, 4]} />
       <shaderMaterial
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}

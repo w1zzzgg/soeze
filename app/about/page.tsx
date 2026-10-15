@@ -6,8 +6,16 @@ import AnimatedNumber from "@/components/ui/AnimatedNumber";
 import styles from "./about.module.css";
 
 export const metadata: Metadata = {
-  title: `About — ${siteConfig.name}`,
+  title: "About",
   description: `About ${siteConfig.name} — Creative technologist working between design, technology, AI and the web.`,
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    title: `About — ${siteConfig.name}`,
+    description: `About ${siteConfig.name} — Creative technologist working between design, technology, AI and the web.`,
+    url: `${siteConfig.url}/about`,
+  },
 };
 
 export default function AboutPage() {
@@ -17,11 +25,11 @@ export default function AboutPage() {
       <section className={`section ${styles.hero}`}>
         <div className="container">
           <SectionLabel index="01">ABOUT</SectionLabel>
-          <div className={styles.heroHeadline}>
+          <h1 className={styles.heroHeadline}>
             {siteConfig.about.headline.map((line, i) => (
               <div key={i} className={`text-display ${styles.hline}`}>{line}</div>
             ))}
-          </div>
+          </h1>
         </div>
       </section>
 
@@ -61,8 +69,7 @@ export default function AboutPage() {
               <div className={styles.infoGrid}>
                 <div className={styles.infoItem}>
                   <span className={styles.infoLabel}>BASED IN</span>
-                  {/* REPLACE_ME: Update location */}
-                  <span className={styles.infoValue}>REPLACE_ME — LOCATION</span>
+                  <span className={styles.infoValue}>MUMBAI, INDIA</span>
                 </div>
                 <div className={styles.infoItem}>
                   <span className={styles.infoLabel}>AVAILABLE FOR</span>

@@ -63,9 +63,9 @@ export const siteConfig = {
   // SOCIAL LINKS
   // ---------------------------------------------------------------------------
   social: {
-    github: "[REPLACE_ME — SOCIAL URL]",
-    linkedin: "[REPLACE_ME — SOCIAL URL]",
-    instagram: "[REPLACE_ME — SOCIAL URL]",
+    github: "https://github.com/w1zzzgg",
+    linkedin: "https://www.linkedin.com/in/weezfr/",
+    instagram: "https://www.instagram.com/_harsh03/",
     twitter: "[REPLACE_ME — SOCIAL URL]",
   },
 
@@ -73,7 +73,7 @@ export const siteConfig = {
   // NAVIGATION
   // ---------------------------------------------------------------------------
   nav: [
-    { label: "WORK", href: "/work" },
+    { label: "IDEATION", href: "/work" },
     { label: "ABOUT", href: "/about" },
     { label: "SERVICES", href: "/services" },
     { label: "CONTACT", href: "/contact" },
@@ -83,9 +83,9 @@ export const siteConfig = {
   // HERO
   // ---------------------------------------------------------------------------
   hero: {
-    headline: ["AI KO KAAM DO.", "WEBSITE BANAO.", "KHUD CHAI PIO."],
+    headline: ["SO, WE BUILD", "INTERNET THINGS."],
     subtext:
-      "Websites, AI chatbots, automations — and other things I probably didn't need to build, but did anyway.",
+      "Websites, AI experiments, automations, and whatever else catches our curiosity.",
     // REPLACE_ME: Update hero counter/index with real project count
     index: "001 / 026",
     cta: { label: "VIEW WORK", href: "/work" },
@@ -261,9 +261,7 @@ export const siteConfig = {
   // SEO / METADATA
   // ---------------------------------------------------------------------------
   seo: {
-    // REPLACE_ME: Replace with final OG image path in /public
-    ogImage: "/og-image.png",
-    // REPLACE_ME: Replace with final favicon path in /public
+    ogImage: "/images/project-community.png",
     favicon: "/favicon.ico",
     twitterHandle: "@soeze",
   },

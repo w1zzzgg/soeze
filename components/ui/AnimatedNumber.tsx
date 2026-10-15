@@ -36,7 +36,7 @@ export default function AnimatedNumber({
     const prefix = value.match(/^[^0-9]*/)?.[0] || "";
     const suffix = value.match(/[^0-9]*$/)?.[0] || "";
 
-    ScrollTrigger.create({
+    const st = ScrollTrigger.create({
       trigger: container,
       start: "top 80%",
       once: true,
@@ -53,7 +53,7 @@ export default function AnimatedNumber({
     });
 
     return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill());
+      st.kill();
     };
   }, [value]);
 

@@ -34,13 +34,12 @@ export default function Footer() {
         {/* Social + Copyright */}
         <div className={styles.meta}>
           <div className={styles.socialLinks}>
-            {/* REPLACE_ME: Replace these placeholder social links with real URLs */}
             <MagneticButton
               href={siteConfig.social.github}
               className={styles.socialLink}
               target="_blank"
               rel="noopener noreferrer"
-              ariaLabel="GitHub — REPLACE_ME"
+              ariaLabel="GitHub"
             >
               GH ↗
             </MagneticButton>
@@ -49,7 +48,7 @@ export default function Footer() {
               className={styles.socialLink}
               target="_blank"
               rel="noopener noreferrer"
-              ariaLabel="Instagram — REPLACE_ME"
+              ariaLabel="Instagram"
             >
               IG ↗
             </MagneticButton>
@@ -58,7 +57,7 @@ export default function Footer() {
               className={styles.socialLink}
               target="_blank"
               rel="noopener noreferrer"
-              ariaLabel="LinkedIn — REPLACE_ME"
+              ariaLabel="LinkedIn"
             >
               LI ↗
             </MagneticButton>

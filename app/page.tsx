@@ -9,8 +9,13 @@ import TheLab from "@/components/sections/TheLab";
 import Contact from "@/components/sections/Contact";
 
 export const metadata: Metadata = {
-  title: `${siteConfig.name} — Creative Technology Studio`,
+  title: {
+    absolute: `${siteConfig.name} — Creative Technology Studio`,
+  },
   description: siteConfig.description,
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default function HomePage() {
@@ -33,7 +38,7 @@ export default function HomePage() {
         accent="var(--accent-lavender)"
       />
 
-      {/* 5. Selected Work */}
+      {/* 5. What If? (Creative Ideation) */}
       <SelectedWork />
 
       {/* 6. Services */}

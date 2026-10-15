@@ -1,0 +1,456 @@
+.landingPage {
+  padding-top: var(--nav-height);
+  background: var(--bg);
+  min-height: 100vh;
+  position: relative;
+  transition: background-color var(--theme-transition);
+}
+
+/* ── Hero / Header ───────────────────────────────────────────────────────── */
+.header {
+  border-bottom: var(--border-width) solid var(--border);
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+  transition: border-color var(--theme-transition);
+}
+
+.headerMetaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.statusIndicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: "Space Mono", monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg);
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--accent-mint);
+  display: inline-block;
+  box-shadow: 0 0 8px var(--accent-mint);
+}
+
+.headline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.mainTitle {
+  font-size: clamp(2.8rem, 7vw, 6.5rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  color: var(--fg);
+  margin: 0;
+  transition: color var(--theme-transition);
+}
+
+.leadText {
+  max-width: 720px;
+  font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+  line-height: 1.6;
+  color: var(--fg-muted);
+  transition: color var(--theme-transition);
+}
+
+.actionRow {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.primaryCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.8rem;
+  background: var(--fg);
+  color: var(--bg);
+  border: var(--border-width) solid var(--border);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.primaryCta:hover {
+  background: var(--accent-mint);
+  color: #111111;
+  border-color: #111111;
+}
+
+.secondaryCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.8rem;
+  background: transparent;
+  color: var(--fg);
+  border: var(--border-width) solid var(--border);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.secondaryCta:hover {
+  background: var(--surface);
+}
+
+/* ── Introduction & Method ────────────────────────────────────────────────── */
+.introSection {
+  border-bottom: var(--border-width) solid var(--border);
+  transition: border-color var(--theme-transition);
+}
+
+.introGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+.introHeading {
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+.introBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  line-height: 1.7;
+  color: var(--fg-muted);
+}
+
+.pillarsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 3.5rem;
+}
+
+.pillarCard {
+  border: var(--border-width) solid var(--border);
+  background: var(--surface);
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: border-color var(--theme-transition), background-color var(--theme-transition);
+}
+
+.pillarTag {
+  font-family: "Space Mono", monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--fg-subtle);
+}
+
+.pillarTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--fg);
+  line-height: 1.2;
+}
+
+.pillarDesc {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--fg-muted);
+  margin: 0;
+}
+
+/* ── Capabilities Section ─────────────────────────────────────────────────── */
+.capabilitiesSection {
+  border-bottom: var(--border-width) solid var(--border);
+  transition: border-color var(--theme-transition);
+}
+
+.sectionHeader {
+  margin-bottom: 3rem;
+}
+
+.sectionTitle {
+  font-size: clamp(2.2rem, 5vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--fg);
+  margin-top: 0.5rem;
+}
+
+.capabilitiesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.capabilityCard {
+  border: var(--border-width) solid var(--border);
+  background: var(--surface);
+  padding: 2.25rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.75rem;
+  transition: transform 0.2s ease, border-color var(--theme-transition);
+}
+
+.capabilityTop {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.capabilityIndex {
+  font-family: "Space Mono", monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--fg-subtle);
+}
+
+.capabilityTitle {
+  font-size: clamp(1.35rem, 2vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+.capabilityDesc {
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: var(--fg-muted);
+  margin: 0;
+}
+
+.tagsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.capabilityTag {
+  font-family: "Space Mono", monospace;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.6rem;
+}
+
+/* ── Use Cases Section ────────────────────────────────────────────────────── */
+.useCasesSection {
+  border-bottom: var(--border-width) solid var(--border);
+  transition: border-color var(--theme-transition);
+}
+
+.useCasesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.useCaseCard {
+  border: var(--border-width) solid var(--border);
+  background: var(--surface);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.useCaseBadge {
+  font-family: "Space Mono", monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-mint);
+  display: inline-block;
+}
+
+.useCaseTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--fg);
+  line-height: 1.25;
+}
+
+.useCaseDesc {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--fg-muted);
+  margin: 0;
+}
+
+/* ── FAQ Section (AEO/GEO Structured) ─────────────────────────────────────── */
+.faqSection {
+  border-bottom: var(--border-width) solid var(--border);
+  transition: border-color var(--theme-transition);
+}
+
+.faqGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.faqItem {
+  border: var(--border-width) solid var(--border);
+  background: var(--surface);
+  padding: 1.75rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  transition: background-color var(--theme-transition), border-color var(--theme-transition);
+}
+
+.faqQuestion {
+  font-size: 1.18rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+  color: var(--fg);
+  line-height: 1.3;
+}
+
+.faqAnswer {
+  font-size: 0.96rem;
+  line-height: 1.65;
+  color: var(--fg-muted);
+  margin: 0;
+}
+
+/* ── Breadcrumb / Contextual Links ────────────────────────────────────────── */
+.contextSection {
+  border-bottom: var(--border-width) solid var(--border);
+  padding: 2rem 0;
+  background: var(--bg-secondary);
+}
+
+.contextRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.contextLabel {
+  font-family: "Space Mono", monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+}
+
+.contextLinks {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.contextLink {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg);
+  text-decoration: none;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.contextLink:hover {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 992px) {
+  .introGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .pillarsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .capabilitiesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .useCasesGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .headerMetaRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .actionRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .primaryCta,
+  .secondaryCta {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .faqItem {
+    padding: 1.5rem 1.25rem;
+  }
+}
