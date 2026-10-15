@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://soeze.tech/sitemap.xml
+Sitemap: https://www.soeze.tech/sitemap.xml

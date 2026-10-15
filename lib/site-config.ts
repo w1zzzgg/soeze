@@ -14,7 +14,7 @@ export const siteConfig = {
   name: "SOEZE",
   tagline: "SOEZE.TECH",
   domain: "soeze.tech",
-  url: "https://soeze.tech",
+  url: "https://www.soeze.tech",
 
   // REPLACE_ME: Update this description with the final site description
   description:

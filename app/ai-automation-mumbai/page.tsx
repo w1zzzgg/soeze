@@ -81,7 +81,6 @@ const pageJsonLd = {
         {
           "@type": "City",
           name: "Mumbai",
-          addressCountry: "IN",
         },
         {
           "@type": "Country",
